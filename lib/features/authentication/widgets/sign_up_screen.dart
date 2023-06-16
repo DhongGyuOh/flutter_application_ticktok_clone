@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/auth_button.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/email_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/username_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void onEmailTap(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const EmailScreen()));
+        .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }
 
   @override
