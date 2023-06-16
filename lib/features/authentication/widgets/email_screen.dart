@@ -2,46 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/email_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/password_screen.dart';
 
-class UsernameScreen extends StatefulWidget {
-  const UsernameScreen({super.key});
+class EmailScreen extends StatefulWidget {
+  const EmailScreen({super.key});
 
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  State<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  String _username = "";
+class _EmailScreenState extends State<EmailScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  String _email = "";
 
-  void onNextTap(BuildContext context) {
-    if (_username.isEmpty) return;
+  String? _isEmailValid() {
+    if (_email.isEmpty) return null;
+    final regExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    //Email 정규식
+    if (!regExp.hasMatch(_email)) {
+      return 'Sorry, that is not a valid Email Address';
+    }
+    return null;
+  }
+
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
+  void onEmailTap(BuildContext context) {
+    if (_email.isEmpty || _isEmailValid() != null) return;
     Navigator.pop(context);
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const EmailScreen(),
+      builder: (context) => const PasswordScreen(),
     ));
   }
 
   @override
   void initState() {
     super.initState();
-    _usernameController.addListener(() {
+    _emailController.addListener(() {
       setState(() {
-        _username = _usernameController.text;
+        _email = _emailController.text;
       });
     });
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     super.dispose();
-  }
-
-  void _onScaffoldTap() {
-    FocusScope.of(context).unfocus();
   }
 
   @override
@@ -69,7 +80,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Create username',
+                "Your Email",
                 style: TextStyle(
                     fontSize: Sizes.size28, fontWeight: FontWeight.bold),
               ),
@@ -80,26 +91,31 @@ class _UsernameScreenState extends State<UsernameScreen> {
               ),
               Gaps.v20,
               TextField(
-                maxLength: 10,
+                onSubmitted: (value) => onEmailTap(context),
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+
                 //문자열 수 10으로 제한
                 inputFormatters: [
                   FilteringTextInputFormatter.deny(RegExp(r'[ㄱ-ㅎㅏ-ㅣ가-힣]'))
                   //한글 입력 막기
                 ],
-                controller: _usernameController,
+                controller: _emailController,
                 cursorColor: Theme.of(context).primaryColor,
-                decoration: const InputDecoration(
-                    hintText: 'Insert Your Name',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
+                decoration: InputDecoration(
+                    errorText: _isEmailValid(),
+                    hintText: 'Insert Your Email Address',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black, width: 2)),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
               ),
               Gaps.v20,
               GestureDetector(
-                  onTap: () => onNextTap(context),
-                  child: FormButton(disabled: _username.isEmpty))
+                  onTap: () => onEmailTap(context),
+                  child: FormButton(
+                      disabled: _email.isEmpty || _isEmailValid() != null))
             ],
           ),
         ),
