@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_form_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,35 +17,43 @@ class _SignUpScreenState extends State<LoginScreen> {
     Navigator.pop(context);
   }
 
+  void onTapEmail(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const LoginFormScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: Sizes.size40),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
         child: Column(
           children: [
             Gaps.v80,
-            Text(
+            const Text(
               'Log In To NEW',
               style: TextStyle(
                   fontSize: Sizes.size28, fontWeight: FontWeight.w500),
             ),
             Gaps.v20,
-            Text(
+            const Text(
               'Manage Your Account, Check Notifications, Comment On Videos, And More.',
               style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
               textAlign: TextAlign.center,
             ),
             Gaps.v32,
-            AuthButton(
-              text: 'Use Phone Or Email',
-              icon: FaIcon(
-                FontAwesomeIcons.phone,
-                color: Colors.amber,
+            GestureDetector(
+              onTap: () => onTapEmail(context),
+              child: const AuthButton(
+                text: 'Use Phone Or Email',
+                icon: FaIcon(
+                  FontAwesomeIcons.phone,
+                  color: Colors.amber,
+                ),
               ),
             ),
             Gaps.v10,
-            AuthButton(
+            const AuthButton(
               text: 'Continue With Facebook',
               icon: FaIcon(
                 FontAwesomeIcons.facebook,
@@ -53,7 +62,7 @@ class _SignUpScreenState extends State<LoginScreen> {
               ),
             ),
             Gaps.v10,
-            AuthButton(
+            const AuthButton(
               text: 'Continue With Apple',
               icon: FaIcon(
                 FontAwesomeIcons.apple,
@@ -61,7 +70,7 @@ class _SignUpScreenState extends State<LoginScreen> {
               ),
             ),
             Gaps.v10,
-            AuthButton(
+            const AuthButton(
               text: 'Continue With Google',
               icon: FaIcon(
                 FontAwesomeIcons.google,

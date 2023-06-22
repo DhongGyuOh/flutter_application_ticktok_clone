@@ -54,14 +54,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   bool checkReg(String str) {
     final regexp = RegExp(
-        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$');
+        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,20}$');
     if (!regexp.hasMatch(str)) return false;
     return true;
   }
 
   void onTapNext(BuildContext context) {
     if (!(checkLength(_password) && checkReg(_password))) return;
-
+    Navigator.pop(context);
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const BirthdayScreen(),
     ));
