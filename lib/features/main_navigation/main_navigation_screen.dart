@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/main_navigation/widgets/stf_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../main_navigation/widgets/nav_tab.dart';
 
@@ -10,20 +11,18 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  final screens = [
-    const Center(
-      child: Text('Home'),
-    ),
-    const Center(
-      child: Text('Video'),
-    ),
-    const Center(
-      child: Text('Search'),
-    ),
-    const Center(
-      child: Text('Friend'),
-    )
-  ];
+  // final screens = [
+  //   Column(children: [
+  //     const Text('Home'),
+  //     StfScreen(key: GlobalKey()),
+  //   ]),
+  //   Column(children: [
+  //     const Text('Discover'),
+  //     StfScreen(key: GlobalKey()),
+  //   ]),
+  //   Column(children: [const Text('Inbox'), StfScreen(key: GlobalKey())]),
+  //   Column(children: [const Text('Profile'), StfScreen(key: GlobalKey())]),
+  // ];
   late int _selectedIndex = 0;
   void _onTapNavButton(int index) {
     setState(() {
@@ -34,9 +33,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [screens[_selectedIndex]],
-        ),
+        body: Stack(children: [
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 2,
+            child: const StfScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: const StfScreen(),
+          )
+        ]),
         bottomNavigationBar: BottomAppBar(
           color: Colors.black,
           child: Row(
@@ -46,24 +60,33 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               NavTap(
                 title: 'Home',
                 icon: FontAwesomeIcons.houseMedical,
+                selectedIcon: FontAwesomeIcons.houseMedicalCircleCheck,
                 isSelected: _selectedIndex == 0,
                 onTap: () => _onTapNavButton(0),
               ),
               NavTap(
-                title: 'Home',
-                icon: FontAwesomeIcons.houseMedical,
+                title: 'Discover',
+                icon: FontAwesomeIcons.searchengin,
+                selectedIcon: FontAwesomeIcons.ccDiscover,
                 isSelected: _selectedIndex == 1,
                 onTap: () => _onTapNavButton(1),
               ),
+              Container(
+                  child: const Text(
+                'Plus',
+                style: TextStyle(color: Colors.white),
+              )),
               NavTap(
-                title: 'Home',
-                icon: FontAwesomeIcons.houseMedical,
+                title: 'Inbox',
+                icon: FontAwesomeIcons.inbox,
+                selectedIcon: FontAwesomeIcons.boxArchive,
                 isSelected: _selectedIndex == 2,
                 onTap: () => _onTapNavButton(2),
               ),
               NavTap(
-                title: 'Home',
-                icon: FontAwesomeIcons.houseMedical,
+                title: 'Profile',
+                icon: FontAwesomeIcons.user,
+                selectedIcon: FontAwesomeIcons.userCheck,
                 isSelected: _selectedIndex == 3,
                 onTap: () => _onTapNavButton(3),
               )
@@ -72,7 +95,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ));
   }
 
-  NavigationBar DestinationNavBar() {
+  NavigationBar destinationNavBar() {
     return NavigationBar(
         onDestinationSelected: _onTapNavButton,
         selectedIndex: _selectedIndex,
@@ -86,11 +109,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               label: "Home",
               selectedIcon: FaIcon(FontAwesomeIcons.houseMedicalCircleCheck)),
           NavigationDestination(
-              icon: FaIcon(FontAwesomeIcons.video), label: "Video"),
+              icon: FaIcon(FontAwesomeIcons.video),
+              selectedIcon: FaIcon(FontAwesomeIcons.squareViadeo),
+              label: "Video"),
           NavigationDestination(
-              icon: FaIcon(FontAwesomeIcons.searchengin), label: "Search"),
+              icon: FaIcon(FontAwesomeIcons.searchengin),
+              selectedIcon: FaIcon(FontAwesomeIcons.squareViadeo),
+              label: "Search"),
           NavigationDestination(
-              icon: FaIcon(FontAwesomeIcons.users), label: "Friend"),
+              icon: FaIcon(FontAwesomeIcons.users),
+              selectedIcon: FaIcon(FontAwesomeIcons.squareViadeo),
+              label: "Friend"),
         ]);
   }
 
@@ -112,12 +141,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               tooltip: "Funny Video",
               backgroundColor: Colors.blue),
           BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.search),
+              icon: Icon(FontAwesomeIcons.searchengin),
               label: "Search",
               tooltip: "Search",
               backgroundColor: Colors.green),
           BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.userFriends),
+              icon: Icon(FontAwesomeIcons.user),
               label: "Friend",
               tooltip: "Friend",
               backgroundColor: Colors.deepPurple),
