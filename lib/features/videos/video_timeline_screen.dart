@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
   const VideoTimelineScreen({super.key});
@@ -52,12 +53,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
       onPageChanged: _onPageChanged,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        return Container(
-          color: _color[index],
-          child: Center(
-            child: Text("Screen $index \n\n ${_color[index].toString()}"),
-          ),
-        );
+        return const VideoPost();
       },
     );
   }
