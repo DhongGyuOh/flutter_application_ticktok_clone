@@ -20,6 +20,7 @@ class NavTap extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onTap(),
         child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 15),
           color: Colors.black,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),

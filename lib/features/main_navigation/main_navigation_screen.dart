@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/main_navigation/widgets/stf_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/video_timeline_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../main_navigation/widgets/nav_tab.dart';
+import '../main_navigation/widgets/post_video_button.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -11,18 +14,6 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  // final screens = [
-  //   Column(children: [
-  //     const Text('Home'),
-  //     StfScreen(key: GlobalKey()),
-  //   ]),
-  //   Column(children: [
-  //     const Text('Discover'),
-  //     StfScreen(key: GlobalKey()),
-  //   ]),
-  //   Column(children: [const Text('Inbox'), StfScreen(key: GlobalKey())]),
-  //   Column(children: [const Text('Profile'), StfScreen(key: GlobalKey())]),
-  // ];
   late int _selectedIndex = 0;
   void _onTapNavButton(int index) {
     setState(() {
@@ -30,24 +21,39 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
+  void _onPostVideoButtonTap(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                elevation: 0,
+                shadowColor: Colors.white,
+                title: const Text(
+                  'Record Video',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+        fullscreenDialog: true));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
           Offstage(
-            offstage: _selectedIndex != 0,
-            child: const StfScreen(),
-          ),
+              offstage: _selectedIndex != 0,
+              child: const VideoTimelineScreen()),
           Offstage(
             offstage: _selectedIndex != 1,
             child: const StfScreen(),
           ),
           Offstage(
-            offstage: _selectedIndex != 2,
+            offstage: _selectedIndex != 3,
             child: const StfScreen(),
           ),
           Offstage(
-            offstage: _selectedIndex != 3,
+            offstage: _selectedIndex != 4,
             child: const StfScreen(),
           )
         ]),
@@ -71,24 +77,29 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 isSelected: _selectedIndex == 1,
                 onTap: () => _onTapNavButton(1),
               ),
-              Container(
-                  child: const Text(
-                'Plus',
-                style: TextStyle(color: Colors.white),
-              )),
+              Gaps.h24,
+              GestureDetector(
+                  onTap: () => {
+                        _onPostVideoButtonTap(context),
+                        _onTapNavButton(2),
+                      },
+                  child: PostVideoButton(
+                    isSelected: _selectedIndex == 2,
+                  )),
+              Gaps.h24,
               NavTap(
                 title: 'Inbox',
                 icon: FontAwesomeIcons.inbox,
                 selectedIcon: FontAwesomeIcons.boxArchive,
-                isSelected: _selectedIndex == 2,
-                onTap: () => _onTapNavButton(2),
+                isSelected: _selectedIndex == 3,
+                onTap: () => _onTapNavButton(3),
               ),
               NavTap(
                 title: 'Profile',
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.userCheck,
-                isSelected: _selectedIndex == 3,
-                onTap: () => _onTapNavButton(3),
+                isSelected: _selectedIndex == 4,
+                onTap: () => _onTapNavButton(4),
               )
             ],
           ),
