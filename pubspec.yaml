@@ -20,5 +20,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-  - assets/videos/
+  - assets/videos/bromton1.mp4
+  - assets/videos/bromton2.mp4
   - assets/images/

@@ -20,6 +20,12 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     Colors.deepPurpleAccent
   ];
   final PageController _pageController = PageController();
+
+  void _onVideoFinished() {
+    _pageController.nextPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
   void _onPageChanged(int page) {
     _pageController.animateToPage(page,
         curve: Curves.linear, duration: const Duration(milliseconds: 100));
@@ -52,9 +58,8 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
       itemCount: _itemCount,
       onPageChanged: _onPageChanged,
       scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) {
-        return const VideoPost();
-      },
+      itemBuilder: (context, index) =>
+          VideoPost(onVideoFinished: _onVideoFinished),
     );
   }
 }
