@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
 
 void main() {
@@ -16,6 +17,6 @@ class TickTokApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
             primaryColor: const Color(0xFFE9435A)),
-        home: InterestScreen());
+        home: const SignUpScreen());
   }
 }
