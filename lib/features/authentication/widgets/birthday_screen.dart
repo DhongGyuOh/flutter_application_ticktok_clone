@@ -38,9 +38,12 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   void onTapNext(BuildContext context) {
     Navigator.pop(context);
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+      (route) => false,
+    );
   }
 
   @override

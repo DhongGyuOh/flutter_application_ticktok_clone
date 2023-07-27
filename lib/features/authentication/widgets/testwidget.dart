@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 
 class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
@@ -9,116 +8,73 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  final listitem = [
-    '탑건',
-    '레옹',
-    '웨스트 사이드 스토리',
-    '태양은 없다',
-    '번지점프를 하다',
-    '빌리 엘리어트',
-    '해리포터와 마법사의 돌',
-    '센과 치히로의 행방불명',
-    '그녀에게',
-    '툼레이더 2 : 판도라의 상자',
-    '하나와 앨리스',
-    '해리포터와 아즈카반의 죄수',
-    '릴리 슈슈의 모든 것',
-    '초속5센티미터',
-    '트랜스포머',
-    '집오리와 들오리의 코인로커',
-    '트와일라잇',
-    '호우시절',
-    '서칭 포 슈가맨',
-    '피에타',
-    '7번방의 선물',
-    '변호인',
-    '사이비',
-    '겨울왕국',
-    '국제시장',
-    '비긴 어게인',
-    '내부자들: 디 오리지널',
-    '더폰',
-    '도라에몽 : 스탠 바이 미',
-    '러브 앤 머시',
-    '맥베스',
-    '미라클 벨리에',
-    '뷰티인사이드',
-    '극장판 파워레인저: 애니멀포스 VS 닌자포스 미래',
-    '스물',
-    '연평해전',
-    '열정같은소리하고있네'
-  ];
-  final ScrollController _scrollController = ScrollController();
-  late bool _appBarVisible = false;
-  void _onScroll() {
-    if (_scrollController.offset > 10) {
+  late bool _showFirstWidget = true;
+  late bool _dragleft = true;
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (details.delta.dx > 0) {
       setState(() {
-        _appBarVisible = true;
+        _dragleft = true;
       });
     } else {
       setState(() {
-        _appBarVisible = false;
+        _dragleft = false;
+      });
+    }
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (_dragleft) {
+      setState(() {
+        _showFirstWidget = true;
+      });
+    } else {
+      setState(() {
+        _showFirstWidget = false;
       });
     }
   }
 
   @override
-  void initState() {
-    _scrollController.addListener(_onScroll);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: AnimatedOpacity(
-          duration: const Duration(milliseconds: 200),
-          opacity: _appBarVisible ? 1 : 0,
-          child: const Text(
-            "Movie List",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-      ),
-      body: Scrollbar(
-        controller: _scrollController,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Movie List',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-              ),
-              Gaps.v32,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return GestureDetector(
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(30),
+          child: AnimatedCrossFade(
+              firstChild: const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var item in listitem)
-                    SizedBox(
-                      height: 40,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    )
+                  Text(
+                    'AnimatedCrossFade\nFirst Screen\n\nDrag Right to Left ←',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  Text(
+                    ' As the waves crashed against the shore, the salty sea breeze filled the air, creating a soothing atmosphere that instantly put my mind at ease.',
+                    style: TextStyle(fontSize: 20, color: Colors.indigo),
+                  )
                 ],
-              )
-            ],
-          ),
+              ),
+              secondChild: const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'AnimatedCrossFade\nSecond Screen\n\nDrag Left to Right →',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  Text(
+                    "Walking through the bustling streets of the city, I couldn't help but be captivated by the vibrant sights and sounds that surrounded me, immersing myself in the energy of urban life.",
+                    style: TextStyle(fontSize: 20, color: Colors.blue),
+                  )
+                ],
+              ),
+              crossFadeState: _showFirstWidget
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 300)),
         ),
       ),
     );
