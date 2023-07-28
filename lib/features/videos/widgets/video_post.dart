@@ -15,12 +15,13 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
+  //with와 Xixin을 사용하여 SingleTickerProviderStateMixin 클래스, 메서드를 복사해옴
   late final AnimationController _animationController;
 
   final VideoPlayerController _videoPlayerController =
       VideoPlayerController.asset("assets/videos/bromton2.mp4");
 
-  bool _isPaused = false;
+  bool _isPaused = true;
 
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
@@ -30,7 +31,7 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVideoChange() {
-    _isPaused = false;
+    _isPaused = true;
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration ==
           _videoPlayerController.value.position) {
@@ -41,10 +42,16 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   void initState() {
+    _isPaused = true;
     super.initState();
     _initVideoPlayer();
     _animationController = AnimationController(
       vsync: this,
+      //vsync에 this, 즉 class _VideoPostState extends State<VideoPost>
+      //with SingleTickerProviderStateMixin을 넣어서화면이 보일 때만
+      //Tick하게 만들어주는 Ticker를 사용하여 불필요한 애니메이션 리소스를 막음
+      //애니메이션을 만들때는 거의 필수라고 보면됨(리소스 남용방지)
+      //AnimationController이 많을 경우 TickerProviderStateMixin을 with로 복사하면 됨
       lowerBound: 1.0,
       upperBound: 1.5,
       value: 1.5,
@@ -103,8 +110,15 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
               child: IgnorePointer(
             child: Center(
-              child: Transform.scale(
-                scale: _animationController.value,
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  //값이 변할때마다 다시 빌드해줌 -> 리스너,setStae 안써도되는 효과
+                  return Transform.scale(
+                    scale: _animationController.value,
+                    child: child, //여기서 child는 아래 AnimatedOpacity을 말함
+                  );
+                },
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 150),
                   opacity: _isPaused ? 0 : 1,
