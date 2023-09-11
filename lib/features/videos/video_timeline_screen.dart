@@ -9,40 +9,16 @@ class VideoTimelineScreen extends StatefulWidget {
 }
 
 class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
-  late int _itemCount = 7;
-  final List<Color> _color = [
-    Colors.red,
-    Colors.orange,
-    Colors.amber,
-    Colors.green,
-    Colors.blue,
-    Colors.indigo,
-    Colors.deepPurpleAccent
-  ];
   final PageController _pageController = PageController();
-
-  void _onVideoFinished() {
-    _pageController.nextPage(
-        duration: const Duration(milliseconds: 300), curve: Curves.linear);
-  }
-
   void _onPageChanged(int page) {
     _pageController.animateToPage(page,
-        curve: Curves.linear, duration: const Duration(milliseconds: 100));
-    if (page == _itemCount - 1) {
-      setState(() {
-        _itemCount += 4;
-        _color.addAll([Colors.grey, Colors.lime, Colors.pink, Colors.teal]);
-      });
-    }
+        duration: const Duration(milliseconds: 250), curve: Curves.linear);
   }
 
-  @override
-  void initState() {
-    _pageController.addListener(() {
-      _onPageChanged;
-    });
-    super.initState();
+  void _onVideoFinished() {
+    return;
+    // _pageController.nextPage(
+    //duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }
 
   @override
@@ -51,15 +27,25 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     super.dispose();
   }
 
+  Future<void> _onRefresh() {
+    return Future.delayed(const Duration(seconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _pageController,
-      itemCount: _itemCount,
-      onPageChanged: _onPageChanged,
-      scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) =>
-          VideoPost(onVideoFinished: _onVideoFinished, index: index),
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      displacement: 50,
+      edgeOffset: 0,
+      child: PageView.builder(
+        controller: _pageController,
+        pageSnapping: true,
+        scrollDirection: Axis.vertical,
+        onPageChanged: _onPageChanged,
+        itemBuilder: (context, index) {
+          return VideoPost(onVideoFinished: _onVideoFinished, index: index);
+        },
+      ),
     );
   }
 }
