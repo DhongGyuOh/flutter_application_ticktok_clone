@@ -40,6 +40,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
+        //키보드 입력창이 나와도 화면이 resize 되지않음
         body: Stack(children: [
           Offstage(
               offstage: _selectedIndex != 0,
