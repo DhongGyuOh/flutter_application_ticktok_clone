@@ -8,12 +8,14 @@ class NavTap extends StatelessWidget {
       required this.icon,
       required this.selectedIcon,
       required this.isSelected,
-      required this.onTap});
+      required this.onTap,
+      required this.selectedIndex});
   final String title;
   final IconData icon;
   final IconData selectedIcon;
   final bool isSelected;
   final Function onTap;
+  final int selectedIndex;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -21,7 +23,7 @@ class NavTap extends StatelessWidget {
         onTap: () => onTap(),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15),
-          color: Colors.black,
+          color: selectedIndex == 0 ? Colors.black : Colors.white,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: isSelected ? 1 : 0.6,
@@ -30,11 +32,12 @@ class NavTap extends StatelessWidget {
               children: [
                 FaIcon(
                   isSelected ? selectedIcon : icon,
-                  color: Colors.white,
+                  color: selectedIndex == 0 ? Colors.white : Colors.black,
                 ),
                 Text(
                   title,
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: selectedIndex == 0 ? Colors.white : Colors.black),
                 )
               ],
             ),

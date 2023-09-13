@@ -57,6 +57,7 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onTogglePause() {
+    if (!mounted) return;
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse(); //upperbound -> lowerbound로 변함
@@ -96,7 +97,7 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
-    _animationController.dispose();
+    //_animationController.dispose();
     super.dispose();
   }
 

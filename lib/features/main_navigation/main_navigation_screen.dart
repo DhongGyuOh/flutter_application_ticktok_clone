@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
+import 'package:flutter_application_ticktok_clone/features/discover/discover_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/main_navigation/widgets/stf_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/video_timeline_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -48,7 +49,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               child: const VideoTimelineScreen()),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: const StfScreen(),
+            child: const DiscoverScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
@@ -60,12 +61,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           )
         ]),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.black,
+          color: _selectedIndex == 0 ? Colors.black : Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               NavTap(
+                selectedIndex: _selectedIndex,
                 title: 'Home',
                 icon: FontAwesomeIcons.houseMedical,
                 selectedIcon: FontAwesomeIcons.houseMedicalCircleCheck,
@@ -73,6 +75,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 onTap: () => _onTapNavButton(0),
               ),
               NavTap(
+                selectedIndex: _selectedIndex,
                 title: 'Discover',
                 icon: FontAwesomeIcons.searchengin,
                 selectedIcon: FontAwesomeIcons.ccDiscover,
@@ -86,10 +89,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                         _onTapNavButton(2),
                       },
                   child: PostVideoButton(
+                    selectedIndex: _selectedIndex,
                     isSelected: _selectedIndex == 2,
                   )),
               Gaps.h24,
               NavTap(
+                selectedIndex: _selectedIndex,
                 title: 'Inbox',
                 icon: FontAwesomeIcons.inbox,
                 selectedIcon: FontAwesomeIcons.boxArchive,
@@ -97,6 +102,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 onTap: () => _onTapNavButton(3),
               ),
               NavTap(
+                selectedIndex: _selectedIndex,
                 title: 'Profile',
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.userCheck,
