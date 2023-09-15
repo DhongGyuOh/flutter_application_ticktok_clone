@@ -11,6 +11,7 @@ class ActivityScreen extends StatefulWidget {
 
 class _ActivityScreenState extends State<ActivityScreen>
     with SingleTickerProviderStateMixin {
+  //매 애니메이션 프레임마다 호출되는 시계라고 생각하면됨 SingleTicker를 사용해서 리소스를 줄임
   final List<String> _notifications = List.generate(20, (index) => "${index}h");
   final List<Map<String, dynamic>> _tabs = [
     {
@@ -43,10 +44,11 @@ class _ActivityScreenState extends State<ActivityScreen>
     //print(notification);
   }
 
-  void _toggleAnimations() {
+  void _toggleAnimations() async {
     if (_animationController.isAnimating) return;
     if (_animationController.isCompleted) {
-      _animationController.reverse();
+      await _animationController
+          .reverse(); //_animationController가 완료되고 나오도록 await 해줌
     } else {
       _animationController.forward();
     }
@@ -60,7 +62,7 @@ class _ActivityScreenState extends State<ActivityScreen>
 
   late final Animation<double> _arrowAnimation =
       Tween(begin: 0.0, end: 0.5).animate(_animationController);
-
+  //Tween을 사용하여 시작과 끝을 정해주면되는 애니메이션을 만들 수 있음
   late final Animation<Offset> _offsetAnimation =
       Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
           .animate(_animationController);
