@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'features/main_navigation/main_navigation_screen.dart';
+import 'features/authentication/widgets/sign_up_screen.dart';
 
 void main() {
   runApp(const TickTokApp());
@@ -14,6 +14,7 @@ class TickTokApp extends StatelessWidget {
     return MaterialApp(
         title: 'NEW App',
         theme: ThemeData(
+            splashColor: Colors.transparent,
             textSelectionTheme:
                 const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
             scaffoldBackgroundColor: Colors.white,
@@ -22,7 +23,7 @@ class TickTokApp extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.black),
             ),
             primaryColor: const Color(0xFFE9435A)),
-        home: const MainNavigationScreen());
-    //home: const SignUpScreen());
+        //home: const MainNavigationScreen());
+        home: const SignUpScreen());
   }
 }
