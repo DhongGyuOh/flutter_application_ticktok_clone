@@ -8,74 +8,79 @@ class TestScreen extends StatefulWidget {
   State<TestScreen> createState() => _TestScreenState();
 }
 
-class _TestScreenState extends State<TestScreen>
-    with SingleTickerProviderStateMixin {
-  final List<String> addressList = [
-    "010-1234-1234",
-    "010-0000-0000",
-    "010-1111-1111",
-    "010-2222-2222",
-    "010-3333-3333",
-    "010-4444-4444",
-    "010-5555-5555",
-    "010-6666-6666",
-    "010-7777-7777",
-    "010-8888-8888",
-    "010-9999-9999",
-  ];
+class _TestScreenState extends State<TestScreen> {
+  final List<int> list = [];
+  final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
 
-  late final AnimationController _animationController = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 200));
-  late final Animation<double> _animationRotation =
-      Tween(begin: 0.0, end: -0.25).animate(_animationController);
-  late final Animation<Offset> _animationSlider =
-      Tween(begin: const Offset(-1, 0), end: const Offset(0, 0))
-          .animate(_animationController);
-  void _onTap() {
-    if (_animationController.isCompleted) {
-      _animationController.reverse();
-    } else {
-      _animationController.forward();
+  //ListTile 생성
+  void _onAddTap() {
+    if (_key.currentState != null) {
+      _key.currentState!
+          .insertItem(list.length, duration: const Duration(milliseconds: 200));
+      list.add(list.length);
     }
     setState(() {});
+  }
+
+  void _onDeleteTap(int index) {
+    _key.currentState!.removeItem(
+        index,
+        (context, animation) => SizeTransition(
+            sizeFactor: animation,
+            child: FadeTransition(
+              opacity: animation,
+              child: Container(color: Colors.red, child: _makeListTile(index)),
+            )));
+    list.removeAt(index);
+  }
+
+  Widget _makeListTile(int index) {
+    return ListTile(
+      key: UniqueKey(),
+      onLongPress: () => _onDeleteTap(index),
+      leading: const FaIcon(
+        FontAwesomeIcons.robot,
+        color: Colors.purple,
+      ),
+      title: Text(
+        "$index번 Bot",
+        style:
+            const TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
+      ),
+      subtitle: const Text("Ready"),
+      trailing: const FaIcon(
+        FontAwesomeIcons.solidCircleCheck,
+        color: Colors.green,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "AnimationController, Animation",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+        elevation: 1,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ListTile(
-              onTap: _onTap,
-              titleAlignment: ListTileTitleAlignment.center,
-              contentPadding: const EdgeInsets.all(10),
-              title: const Text("Address"),
-              leading: RotationTransition(
-                  turns: _animationRotation,
-                  child: const FaIcon(FontAwesomeIcons.addressBook)),
-              minLeadingWidth: 10,
+            const Text(
+              "Bot List",
+              style: TextStyle(color: Colors.black),
             ),
-            SlideTransition(
-              position: _animationSlider,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (var address in addressList)
-                    ListTile(
-                      title: Text(address),
-                    )
-                ],
-              ),
-            )
+            IconButton(
+                onPressed: _onAddTap,
+                icon: const FaIcon(FontAwesomeIcons.userPlus)),
           ],
         ),
+      ),
+      body: AnimatedList(
+        key: _key,
+        itemBuilder: (context, index, animation) {
+          return FadeTransition(
+              opacity: animation,
+              child: ScaleTransition(
+                  scale: animation, child: _makeListTile(index)));
+        },
       ),
     );
   }
