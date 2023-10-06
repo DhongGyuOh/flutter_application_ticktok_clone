@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -10,97 +12,181 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics:
-          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.teal,
-          floating: true, //당기면 같이 스크롤됨
-          stretch: true, //당기기 가능여부: true
-          pinned: true, //위에 작아진 채로 고정됨
-          snap: true, //스크롤하면 AppBar가 stretch된 상태로 한번에 나타나거나 사라짐
-          collapsedHeight: 60, //AppBar 크기
-          expandedHeight: 200, //확장된 AppBar 크기
-          flexibleSpace: FlexibleSpaceBar(
-            stretchModes: const [
-              StretchMode.blurBackground, //당기면 블러처리됨
-              StretchMode.zoomBackground, //당기면 Zoom됨
-            ],
+    return DefaultTabController(
+      animationDuration: const Duration(milliseconds: 100),
+      length: 2,
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
             centerTitle: true,
-            title: const Text('Profile'),
-            background: Image.asset(
-              "assets/images/img_guitar.png",
-              fit: BoxFit.cover,
+            title: const Text(
+              "Gyu",
+              style: TextStyle(color: Colors.black),
             ),
+            actions: [
+              IconButton(
+                  onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.bell)),
+              IconButton(
+                  onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.gear))
+            ],
           ),
-        ),
-        SliverToBoxAdapter(
-          //List가 아닌 일반적인 위젯을 Sliver에 추가할때 사용
-          child: Container(
-            height: 50,
-            alignment: Alignment.center,
-            color: Colors.amber,
-            child: const Text('CustomScrollView에 위젯 추가'),
-          ),
-        ),
-        SliverFixedExtentList(
-            //CustomScrollView 안에 List를 만드는 위젯
-            delegate: SliverChildBuilderDelegate(
-                //List안에 들어갈 위젯 작성
-                childCount: 8, //자식 갯수: 10
-                (context, index) => Container(
-                      alignment: Alignment.center,
-                      color: Colors.teal[100 * (index % 9)],
-                      child: Text("index: $index"),
-                    )),
-            itemExtent: 100), //item의 높이: 100
-        SliverPersistentHeader(
-            //이 위젯으로 Header를 추가할 수 있음
-            pinned: true, // pinned를 해줘야 header가 안사라지고 고정됨
-            delegate: CustomDelegate()),
-        SliverGrid(
-            //List 안에 Grid를 만드는 위젯
-            delegate: SliverChildBuilderDelegate(
-                childCount: 36,
-                (context, index) => Container(
-                      alignment: Alignment.center,
-                      color: Colors.teal[100 * (index % 9)],
-                      child: Text("index: $index"),
-                    )),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 150,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.4))
-      ],
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                      "https://yt3.ggpht.com/LOWZ9per6hyhd6swd5KEi_RmgACl6-gpXSUf91zNaY-fPb8jX13syeVo-RKLFqqUxnyqCi4S=s88-c-k-c0x00ffffff-no-rj"),
+                ),
+                Gaps.v10,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("@mroh1226"),
+                    Gaps.h3,
+                    FaIcon(
+                      FontAwesomeIcons.certificate,
+                      size: 15,
+                      color: Colors.blue,
+                    )
+                  ],
+                ),
+                Gaps.v20,
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextNumber(
+                          numbers: "37",
+                          title: "Following",
+                        ),
+                        VerticalDivider(
+                            width: 30,
+                            thickness: 0.4,
+                            color: Colors.grey,
+                            endIndent: 14,
+                            indent: 14),
+                        TextNumber(
+                          numbers: "10.5M",
+                          title: "Followers",
+                        ),
+                        VerticalDivider(
+                            width: 30,
+                            thickness: 0.4,
+                            color: Colors.grey,
+                            endIndent: 14,
+                            indent: 14),
+                        TextNumber(
+                          numbers: "149K",
+                          title: "Like",
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Gaps.v20,
+                FractionallySizedBox(
+                  widthFactor: 0.33,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4))),
+                    child: const Text(
+                      'Follow',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                Gaps.v5,
+                const Text('64 Telecaster, Jazz Standard Bass, SLG200N'),
+                Gaps.v5,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.link,
+                      size: 15,
+                      color: Colors.blue.shade400,
+                    ),
+                    const Text(' www.youtube.com'),
+                  ],
+                ),
+                Gaps.v10,
+                Container(
+                  decoration: const BoxDecoration(
+                      border: Border.symmetric(
+                          horizontal:
+                              BorderSide(width: 0.8, color: Colors.grey))),
+                  child: TabBar(
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: Theme.of(context).primaryColor,
+                      labelPadding: const EdgeInsets.all(10),
+                      labelColor: Colors.black,
+                      tabs: const [
+                        Icon(Icons.grid_4x4),
+                        FaIcon(FontAwesomeIcons.heart)
+                      ]),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: TabBarView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        GridView.builder(
+                          itemCount: 10,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 300,
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5,
+                                  childAspectRatio: 0.2,
+                                  crossAxisCount: 2),
+                          itemBuilder: (context, index) => Container(
+                            child: Container(
+                                alignment: Alignment.center,
+                                color: Colors.deepOrangeAccent.shade100,
+                                child: Text('$index')),
+                          ),
+                        ),
+                        const Center(child: Text('data'))
+                      ]),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
-class CustomDelegate extends SliverPersistentHeaderDelegate {
+class TextNumber extends StatelessWidget {
+  const TextNumber({super.key, required this.title, required this.numbers});
+  final String title;
+  final String numbers;
+
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Colors.indigo,
-      child: const FractionallySizedBox(
-        heightFactor: 1,
-        child: Center(
-          child: Text('data'),
-        ),
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Text(
+        numbers,
+        style: const TextStyle(
+            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28),
       ),
-    );
-  }
-
-  @override
-  double get maxExtent => 100;
-
-  @override
-  double get minExtent => 60;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+      Gaps.v2,
+      Text(
+        title,
+        style: const TextStyle(color: Colors.grey, fontSize: 13),
+      ),
+    ]);
   }
 }
