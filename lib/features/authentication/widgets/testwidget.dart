@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
@@ -9,79 +8,129 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  final List<int> list = [];
-  final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
-
-  //ListTile 생성
-  void _onAddTap() {
-    if (_key.currentState != null) {
-      _key.currentState!
-          .insertItem(list.length, duration: const Duration(milliseconds: 200));
-      list.add(list.length);
-    }
-    setState(() {});
-  }
-
-  void _onDeleteTap(int index) {
-    _key.currentState!.removeItem(
-        index,
-        (context, animation) => SizeTransition(
-            sizeFactor: animation,
-            child: FadeTransition(
-              opacity: animation,
-              child: Container(color: Colors.red, child: _makeListTile(index)),
-            )));
-    list.removeAt(index);
-  }
-
-  Widget _makeListTile(int index) {
-    return ListTile(
-      key: UniqueKey(),
-      onLongPress: () => _onDeleteTap(index),
-      leading: const FaIcon(
-        FontAwesomeIcons.robot,
-        color: Colors.purple,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  const SliverAppBar(
+                    elevation: 0,
+                    centerTitle: true,
+                    title: Text(
+                      'SliverAppBar',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                        ),
+                        Text(
+                          'Avatar',
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                      pinned: true, delegate: SliverDelegate())
+                ];
+              },
+              body: TabBarView(
+                children: [
+                  GridView.builder(
+                    itemCount: 12,
+                    padding: EdgeInsets.zero,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 1,
+                            mainAxisSpacing: 1,
+                            childAspectRatio: 9 / 16,
+                            crossAxisCount: 3),
+                    itemBuilder: (context, index) => Container(
+                      alignment: Alignment.center,
+                      color: Colors.pink.shade200,
+                      child: Text('첫번째 Tab $index'),
+                    ),
+                  ),
+                  GridView.builder(
+                    itemCount: 12,
+                    padding: EdgeInsets.zero,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 1,
+                            mainAxisSpacing: 1,
+                            childAspectRatio: 9 / 16,
+                            crossAxisCount: 3),
+                    itemBuilder: (context, index) => Container(
+                      alignment: Alignment.center,
+                      color: Colors.green.shade300,
+                      child: Text('두번째 Tab $index'),
+                    ),
+                  ),
+                ],
+              )),
+        ),
       ),
-      title: Text(
-        "$index번 Bot",
-        style:
-            const TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
+    );
+  }
+}
+
+class SliverDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      //Container 안에 decoration을 정해줘야 pinned = true로 해도 오류가 안남
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.symmetric(
+          horizontal: BorderSide(
+            color: Colors.grey.shade200,
+            width: 0.5,
+          ),
+        ),
       ),
-      subtitle: const Text("Ready"),
-      trailing: const FaIcon(
-        FontAwesomeIcons.solidCircleCheck,
-        color: Colors.green,
+      child: const TabBar(
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: Colors.black,
+        labelPadding: EdgeInsets.symmetric(
+          vertical: 10,
+        ),
+        labelColor: Colors.black,
+        tabs: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Icon(Icons.grid_4x4_rounded),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Icon(Icons.favorite_rounded),
+          ),
+        ],
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              "Bot List",
-              style: TextStyle(color: Colors.black),
-            ),
-            IconButton(
-                onPressed: _onAddTap,
-                icon: const FaIcon(FontAwesomeIcons.userPlus)),
-          ],
-        ),
-      ),
-      body: AnimatedList(
-        key: _key,
-        itemBuilder: (context, index, animation) {
-          return FadeTransition(
-              opacity: animation,
-              child: ScaleTransition(
-                  scale: animation, child: _makeListTile(index)));
-        },
-      ),
-    );
+  double get maxExtent => 47;
+
+  @override
+  double get minExtent => 47;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }
