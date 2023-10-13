@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'features/authentication/widgets/sign_up_screen.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]); //사용자의 설정과 상관없이 세로모드 고정시킴
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark); //사용자의 설정과 상관없이 다크모드로 만듦
   runApp(const TickTokApp());
 }
 
@@ -12,6 +17,7 @@ class TickTokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'NEW App',
         theme: ThemeData(
             splashColor: Colors.transparent,
@@ -24,6 +30,30 @@ class TickTokApp extends StatelessWidget {
             ),
             primaryColor: const Color(0xFFE9435A)),
         //home: const MainNavigationScreen());
-        home: const SignUpScreen());
+        home: const LayoutBuilderCodeLab());
+  }
+}
+
+class LayoutBuilderCodeLab extends StatelessWidget {
+  const LayoutBuilderCodeLab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (context, constraints) => Container(
+          color: Colors.teal,
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: Center(
+            child: Text(
+              "${constraints.maxWidth} /// ${size.width}",
+              style: TextStyle(fontSize: constraints.maxWidth > 700 ? 70 : 30),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

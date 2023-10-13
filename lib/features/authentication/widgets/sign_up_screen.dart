@@ -27,59 +27,85 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
-        child: Column(
-          children: [
-            Gaps.v80,
-            const Text(
-              'Sign Up For NEW',
-              style: TextStyle(
-                  fontSize: Sizes.size28, fontWeight: FontWeight.w500),
-            ),
-            Gaps.v20,
-            const Text(
-              'Create a profile, follow other accounts, make your own videos',
-              style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
-              textAlign: TextAlign.center,
-            ),
-            Gaps.v32,
-            GestureDetector(
-              onTap: () => onEmailTap(context),
-              child: const AuthButton(
-                  text: 'User Email & Password',
-                  icon: FaIcon(FontAwesomeIcons.user)),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade200,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.size28),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return OrientationBuilder(builder: (context, orientation) {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
+          child: Column(
             children: [
+              Gaps.v80,
               const Text(
-                'Already Have An Account?',
-                style: TextStyle(),
+                'Sign Up For NEW',
+                style: TextStyle(
+                    fontSize: Sizes.size28, fontWeight: FontWeight.w500),
               ),
-              Gaps.h9,
-              GestureDetector(
-                onTap: () => onLoginTap(context),
-                child: Text(
-                  'Log In',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold),
+              Gaps.v20,
+              const Text(
+                'Create a profile, follow other accounts, make your own videos',
+                style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
+                textAlign: TextAlign.center,
+              ),
+              Gaps.v32,
+              if (orientation == Orientation.portrait) ...[
+                GestureDetector(
+                  onTap: () => onEmailTap(context),
+                  child: const AuthButton(
+                      text: 'User Email & Password',
+                      icon: FaIcon(FontAwesomeIcons.user)),
                 ),
-              )
+                const AuthButton(
+                    text: 'Continue with Apple',
+                    icon: FaIcon(FontAwesomeIcons.apple))
+              ],
+              if (orientation == Orientation.landscape)
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => onEmailTap(context),
+                        child: const AuthButton(
+                            text: 'User Email & Password',
+                            icon: FaIcon(FontAwesomeIcons.user)),
+                      ),
+                    ),
+                    Gaps.h5,
+                    const Expanded(
+                      child: AuthButton(
+                          text: 'Continue with Apple',
+                          icon: FaIcon(FontAwesomeIcons.apple)),
+                    )
+                  ],
+                )
             ],
           ),
         ),
-      ),
-    );
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.grey.shade200,
+          elevation: 2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: Sizes.size28),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Already Have An Account?',
+                  style: TextStyle(),
+                ),
+                Gaps.h9,
+                GestureDetector(
+                  onTap: () => onLoginTap(context),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

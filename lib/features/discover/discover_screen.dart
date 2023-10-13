@@ -53,6 +53,8 @@ class _DiscoverScreenState extends State<DiscoverScreen>
 
   @override
   Widget build(BuildContext context) {
+    var sizewidth = MediaQuery.of(context).size.width;
+    print(sizewidth);
     return DefaultTabController(
       length: tabs.length,
       child: GestureDetector(
@@ -90,8 +92,8 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 itemCount: 20,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: sizewidth > 900 ? 5 : 2,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 10,
                     childAspectRatio: 9 / 20),
