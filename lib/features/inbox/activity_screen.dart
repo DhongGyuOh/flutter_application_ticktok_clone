@@ -95,7 +95,6 @@ class _ActivityScreenState extends State<ActivityScreen>
             children: [
               const Text(
                 "All Activity",
-                style: TextStyle(color: Colors.black),
               ),
               Gaps.h5,
               RotationTransition(
@@ -164,9 +163,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                       text: TextSpan(
                           text: "Account Updates:",
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                              fontSize: 16, fontWeight: FontWeight.w600),
                           children: [
                             const TextSpan(
                                 text: "Upload longer Video.",
@@ -189,9 +186,9 @@ class _ActivityScreenState extends State<ActivityScreen>
           SlideTransition(
             position: _offsetAnimation,
             child: Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(4),
                     bottomRight: Radius.circular(4),
                   )),

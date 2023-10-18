@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class PostVideoButton extends StatelessWidget {
   PostVideoButton(
@@ -9,6 +10,7 @@ class PostVideoButton extends StatelessWidget {
   int selectedIndex;
   @override
   Widget build(BuildContext context) {
+    final bool isdarkMode = isDarkMode(context);
     return Stack(clipBehavior: Clip.none, children: [
       Positioned(
         right: 20,
@@ -54,7 +56,7 @@ class PostVideoButton extends StatelessWidget {
           horizontal: Sizes.size12,
         ),
         decoration: BoxDecoration(
-          color: selectedIndex == 0 ? Colors.white : Colors.black,
+          color: selectedIndex == 0 || isdarkMode ? Colors.white : Colors.black,
           borderRadius: BorderRadius.circular(
             Sizes.size6,
           ),
@@ -62,7 +64,8 @@ class PostVideoButton extends StatelessWidget {
         child: Center(
           child: FaIcon(
             FontAwesomeIcons.plus,
-            color: selectedIndex == 0 ? Colors.black : Colors.white,
+            color:
+                selectedIndex == 0 || isdarkMode ? Colors.black : Colors.white,
             size: 18,
           ),
         ),

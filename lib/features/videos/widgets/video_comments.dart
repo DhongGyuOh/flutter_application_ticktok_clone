@@ -119,7 +119,6 @@ class _VideoCommentsState extends State<VideoComments> {
                 width: size.width,
                 //MediaQuery: 사용자 단말기 정보 이용하기 (JavaScript 에서랑 비슷한 개념)
                 child: BottomAppBar(
-                  color: Colors.white,
                   padding: const EdgeInsets.all(10),
                   child: Row(
                     children: [
@@ -147,7 +146,6 @@ class _VideoCommentsState extends State<VideoComments> {
                               border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),
-                              fillColor: Colors.grey.shade300,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),

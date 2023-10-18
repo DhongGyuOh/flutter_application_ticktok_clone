@@ -101,7 +101,6 @@ class _InterestScreenState extends State<InterestScreen> {
           opacity: _appbarVisible ? 1 : 0,
           child: const Text(
             'Choose Your Interests',
-            style: TextStyle(color: Colors.black),
           ),
         ),
       ),

@@ -77,7 +77,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
           children: [
             const Text(
               "Direct Messages",
-              style: TextStyle(color: Colors.black),
             ),
             IconButton(
                 onPressed: _addItem,

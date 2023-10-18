@@ -50,8 +50,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 firstDate: DateTime(1945),
                 lastDate: DateTime(2024),
               );
+              if (!mounted) return;
               final time = await showTimePicker(
                   context: context, initialTime: TimeOfDay.now());
+              if (!mounted) return;
               final dateRange = showDateRangePicker(
                 context: context,
                 firstDate: DateTime.now(),

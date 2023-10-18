@@ -77,9 +77,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                 controller: _tabController,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 unselectedLabelColor: Colors.grey,
-                labelColor: Colors.black,
                 splashFactory: NoSplash.splashFactory,
                 indicatorColor: Colors.black,
+                labelColor: Theme.of(context).primaryColor,
                 isScrollable: true,
                 labelStyle:
                     const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),

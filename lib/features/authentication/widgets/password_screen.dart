@@ -77,7 +77,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
           title: const Text(
             'Sign Up',
             style: TextStyle(
-              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
@@ -111,6 +110,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   controller: _passwordController,
                   cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
+                      focusColor: Colors.grey,
                       suffix: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
@@ -136,9 +136,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       ),
                       hintText: 'Make It Strong !',
                       hintStyle: const TextStyle(color: Colors.grey),
-                      focusedBorder: const UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 2)),
                       enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey))),
                 ),

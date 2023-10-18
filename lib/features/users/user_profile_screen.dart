@@ -32,7 +32,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 centerTitle: true,
                 title: const Text(
                   "Gyu",
-                  style: TextStyle(color: Colors.black),
                 ),
                 actions: [
                   IconButton(
@@ -196,8 +195,7 @@ class TextNumber extends StatelessWidget {
     return Column(children: [
       Text(
         numbers,
-        style: const TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
       ),
       Gaps.v2,
       Text(

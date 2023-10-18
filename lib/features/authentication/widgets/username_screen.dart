@@ -54,7 +54,6 @@ class _UsernameScreenState extends State<UsernameScreen> {
           title: const Text(
             'Sign Up',
             style: TextStyle(
-              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,

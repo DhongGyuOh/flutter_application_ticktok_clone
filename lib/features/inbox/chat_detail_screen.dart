@@ -59,9 +59,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       Text(
                         "mroh1226",
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Gaps.v3,
                       Text(

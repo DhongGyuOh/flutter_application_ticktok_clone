@@ -33,7 +33,6 @@ class _InboxScreenState extends State<InboxScreen> {
         elevation: 1,
         title: const Text(
           "Inbox",
-          style: TextStyle(color: Colors.black),
         ),
         actions: [
           IconButton(
@@ -47,8 +46,6 @@ class _InboxScreenState extends State<InboxScreen> {
             onTap: () => _onActivityTap(context),
             title: const Text(
               'Activity',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ),
             trailing: const FaIcon(
               FontAwesomeIcons.chevronRight,
@@ -59,8 +56,7 @@ class _InboxScreenState extends State<InboxScreen> {
           ListTile(
             title: const Text(
               'New Followers',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
             leading: Container(
               decoration: const BoxDecoration(

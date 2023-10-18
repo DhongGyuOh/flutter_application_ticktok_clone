@@ -42,7 +42,6 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
           centerTitle: true,
           title: const Text(
             "Log in",
-            style: TextStyle(color: Colors.black),
             textAlign: TextAlign.center,
           ),
         ),

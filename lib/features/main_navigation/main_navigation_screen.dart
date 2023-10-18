@@ -7,6 +7,7 @@ import 'package:flutter_application_ticktok_clone/features/videos/video_timeline
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../main_navigation/widgets/nav_tab.dart';
 import '../main_navigation/widgets/post_video_button.dart';
+import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -17,6 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   late int _selectedIndex = 0;
+  final _isDarkMode = isDarkMode;
   void _onTapNavButton(int index) {
     setState(() {
       _selectedIndex = index;
@@ -62,7 +64,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           )
         ]),
         bottomNavigationBar: BottomAppBar(
-          color: _selectedIndex == 0 ? Colors.black : Colors.white,
+          color: (_selectedIndex == 0) || _isDarkMode(context)
+              ? Colors.black
+              : Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,

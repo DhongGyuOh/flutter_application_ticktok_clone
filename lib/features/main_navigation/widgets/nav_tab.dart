@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NavTap extends StatelessWidget {
-  const NavTap(
-      {super.key,
-      required this.title,
-      required this.icon,
-      required this.selectedIcon,
-      required this.isSelected,
-      required this.onTap,
-      required this.selectedIndex});
+  const NavTap({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.selectedIcon,
+    required this.isSelected,
+    required this.onTap,
+    required this.selectedIndex,
+  });
   final String title;
   final IconData icon;
   final IconData selectedIcon;
@@ -18,12 +20,13 @@ class NavTap extends StatelessWidget {
   final int selectedIndex;
   @override
   Widget build(BuildContext context) {
+    final bool isdarkMode = isDarkMode(context);
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15),
-          color: selectedIndex == 0 ? Colors.black : Colors.white,
+          color: selectedIndex == 0 || isdarkMode ? Colors.black : Colors.white,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: isSelected ? 1 : 0.6,
@@ -32,12 +35,16 @@ class NavTap extends StatelessWidget {
               children: [
                 FaIcon(
                   isSelected ? selectedIcon : icon,
-                  color: selectedIndex == 0 ? Colors.white : Colors.black,
+                  color: selectedIndex == 0 || isdarkMode
+                      ? Colors.white
+                      : Colors.black,
                 ),
                 Text(
                   title,
                   style: TextStyle(
-                      color: selectedIndex == 0 ? Colors.white : Colors.black),
+                      color: selectedIndex == 0 || isdarkMode
+                          ? Colors.white
+                          : Colors.black),
                 )
               ],
             ),
