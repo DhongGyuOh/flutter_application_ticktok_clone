@@ -39,14 +39,18 @@ class _SignUpScreenState extends State<LoginScreen> {
             Gaps.v80,
             const Text(
               'Log In To NEW',
-              style: TextStyle(
-                  fontSize: Sizes.size28, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
             ),
             Gaps.v20,
-            const Text(
-              'Manage Your Account, Check Notifications, Comment On Videos, And More.',
-              style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
-              textAlign: TextAlign.center,
+            const Opacity(
+              opacity: 0.7,
+              child: Text(
+                'Manage Your Account, Check Notifications, Comment On Videos, And More.',
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
             Gaps.v32,
             GestureDetector(
@@ -100,7 +104,6 @@ class _SignUpScreenState extends State<LoginScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade200,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.size28),

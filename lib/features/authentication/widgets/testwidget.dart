@@ -11,20 +11,23 @@ class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListWheelScrollView(
-          perspective: 0.005,
-          useMagnifier: true,
-          magnification: 2,
-          offAxisFraction: 0.9,
-          itemExtent: 100,
-          children: [
-            for (int i = 0; i < 10; i++)
-              Container(
-                color: Colors.indigo.shade400,
-                alignment: Alignment.center,
-                child: Text('$i'),
-              )
-          ]),
-    );
+        appBar: AppBar(
+          title: const Text('appBar'),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              for (int i = 0; i < 5; i++)
+                const ListTile(
+                  title: Text('안녕'),
+                  subtitle: Text('안녕하세요.'),
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.amber,
+                  ),
+                )
+            ],
+          ),
+        ));
   }
 }

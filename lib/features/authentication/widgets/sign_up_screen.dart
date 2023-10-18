@@ -36,14 +36,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Gaps.v80,
               const Text(
                 'Sign Up For NEW',
-                style: TextStyle(
-                    fontSize: Sizes.size28, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
               ),
               Gaps.v20,
-              const Text(
-                'Create a profile, follow other accounts, make your own videos',
-                style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
-                textAlign: TextAlign.center,
+              const Opacity(
+                opacity: 0.7,
+                child: Text(
+                  'Create a profile, follow other accounts, make your own videos',
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               Gaps.v32,
               if (orientation == Orientation.portrait) ...[
@@ -80,7 +84,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.grey.shade200,
           elevation: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: Sizes.size28),

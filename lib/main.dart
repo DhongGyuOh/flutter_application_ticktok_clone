@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,10 @@ class TickTokApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'NEW App',
+        themeMode: ThemeMode.system,
         theme: ThemeData(
+            brightness: Brightness.light,
+            textTheme: Typography.blackCupertino,
             splashColor: Colors.transparent,
             textSelectionTheme:
                 const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
@@ -29,8 +33,19 @@ class TickTokApp extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.black),
             ),
             primaryColor: const Color(0xFFE9435A)),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            textTheme: Typography.whiteCupertino,
+            textSelectionTheme:
+                const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
+            scaffoldBackgroundColor: Colors.black,
+            appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
+            iconTheme: const IconThemeData(color: Colors.white),
+            bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade800),
+            primaryColor: const Color(0xFFE9435A)),
+
         //home: const MainNavigationScreen());
-        home: const LayoutBuilderCodeLab());
+        home: const SignUpScreen());
   }
 }
 

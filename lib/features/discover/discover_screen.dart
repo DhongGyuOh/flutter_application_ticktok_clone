@@ -63,12 +63,15 @@ class _DiscoverScreenState extends State<DiscoverScreen>
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 1,
-            title: CupertinoSearchTextField(
-              controller: _textEditingController,
-              prefixIcon: const FaIcon(FontAwesomeIcons.searchengin),
-              suffixIcon: const Icon(FontAwesomeIcons.solidCircleXmark),
-              onChanged: _onSearchChanged,
-              onSubmitted: _onSearchSubmitted,
+            title: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 640),
+              child: CupertinoSearchTextField(
+                controller: _textEditingController,
+                prefixIcon: const FaIcon(FontAwesomeIcons.searchengin),
+                suffixIcon: const Icon(FontAwesomeIcons.solidCircleXmark),
+                onChanged: _onSearchChanged,
+                onSubmitted: _onSearchSubmitted,
+              ),
             ),
             bottom: TabBar(
                 controller: _tabController,
@@ -130,27 +133,31 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                             style: const TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold),
-                            child: Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "https://img1.daumcdn.net/thumb/C100x100/?scode=mtistory2&fname=https%3A%2F%2Ftistory1.daumcdn.net%2Ftistory%2F4506296%2Fattach%2F27003a1355e84452a5cc9d2dc88c59ca"),
-                                  radius: 18,
-                                ),
-                                Gaps.h6,
-                                const Text(
-                                  "DongGyu",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                Gaps.h10,
-                                FaIcon(
-                                  FontAwesomeIcons.heart,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                Gaps.h3,
-                                const Text("2.5M")
-                              ],
+                            child: LayoutBuilder(
+                              builder: (context, constraints) => Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (constraints.maxWidth > 200)
+                                    const CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "https://img1.daumcdn.net/thumb/C100x100/?scode=mtistory2&fname=https%3A%2F%2Ftistory1.daumcdn.net%2Ftistory%2F4506296%2Fattach%2F27003a1355e84452a5cc9d2dc88c59ca"),
+                                      radius: 18,
+                                    ),
+                                  Gaps.h6,
+                                  const Text(
+                                    "DongGyu",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Gaps.h10,
+                                  FaIcon(
+                                    FontAwesomeIcons.heart,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  Gaps.h3,
+                                  const Text("2.5M")
+                                ],
+                              ),
                             ),
                           ),
                         )
