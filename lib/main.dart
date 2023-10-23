@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
+import 'package:flutter_application_ticktok_clone/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,8 @@ class TickTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+        routerConfig: router,
         debugShowCheckedModeBanner: false,
         title: 'NEW App',
         themeMode: ThemeMode.system,
@@ -42,33 +43,9 @@ class TickTokApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
             iconTheme: const IconThemeData(color: Colors.white),
             bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade800),
-            primaryColor: const Color(0xFFE9435A)),
+            primaryColor: const Color(0xFFE9435A)));
 
-        //home: const MainNavigationScreen());
-        home: const SignUpScreen());
-  }
-}
-
-class LayoutBuilderCodeLab extends StatelessWidget {
-  const LayoutBuilderCodeLab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) => Container(
-          color: Colors.teal,
-          width: constraints.maxWidth,
-          height: constraints.maxHeight,
-          child: Center(
-            child: Text(
-              "${constraints.maxWidth} /// ${size.width}",
-              style: TextStyle(fontSize: constraints.maxWidth > 700 ? 70 : 30),
-            ),
-          ),
-        ),
-      ),
-    );
+    //home: const MainNavigationScreen());
+    //home: const SignUpScreen());
   }
 }

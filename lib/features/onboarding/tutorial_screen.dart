@@ -2,13 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
-import '../main_navigation/main_navigation_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:go_router/go_router.dart';
 
 enum Direction { right, left }
 
 enum Page { first, second }
 
 class TutorialScreen extends StatefulWidget {
+  static String routeName = "/tutorial";
   const TutorialScreen({super.key});
 
   @override
@@ -45,11 +47,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 
   void _onTap(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const MainNavigationScreen(),
-        ),
-        (route) => false);
+    context.go(MainNavigationScreen.routeName);
+    // Navigator.of(context).pushAndRemoveUntil(
+    //     MaterialPageRoute(
+    //       builder: (context) => const MainNavigationScreen(),
+    //     ),
+    //     (route) => false);
   }
 
   @override

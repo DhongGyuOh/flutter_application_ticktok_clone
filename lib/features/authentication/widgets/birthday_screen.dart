@@ -4,10 +4,11 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
-
+  static String routeName = "/birthday";
   @override
   State<BirthdayScreen> createState() => _BirthdayScreenState();
 }
@@ -37,13 +38,15 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void onTapNext(BuildContext context) {
-    Navigator.pop(context);
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-      (route) => false,
-    );
+    context.pop();
+    context.go(LoginScreen.routeName);
+    // Navigator.pop(context);
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(
+    //     builder: (context) => const LoginScreen(),
+    //   ),
+    //   (route) => false,
+    // );
   }
 
   @override

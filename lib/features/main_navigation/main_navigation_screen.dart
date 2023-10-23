@@ -11,7 +11,7 @@ import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
-
+  static String routeName = "/mainnavigation";
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }

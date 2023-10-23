@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TestScreen extends StatefulWidget {
+  static String routeName = "/tset";
   const TestScreen({super.key});
 
   @override

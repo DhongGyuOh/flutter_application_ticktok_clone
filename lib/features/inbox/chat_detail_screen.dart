@@ -3,6 +3,7 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChatDetailScreen extends StatefulWidget {
+  static String routeName = "/chatdetail";
   const ChatDetailScreen({super.key});
 
   @override

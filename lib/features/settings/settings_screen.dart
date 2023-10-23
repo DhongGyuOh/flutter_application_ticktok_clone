@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
+  static String routeName = "/settings";
   const SettingsScreen({super.key});
 
   @override
@@ -26,7 +27,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         title: const Text(
           "Setting",
-          style: TextStyle(color: Colors.black),
         ),
       ),
       body: ListView(

@@ -3,6 +3,7 @@ import 'package:flutter_application_ticktok_clone/features/inbox/chat_detail_scr
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChatsScreen extends StatefulWidget {
+  static String routeName = "/chats";
   const ChatsScreen({super.key});
 
   @override

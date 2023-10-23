@@ -7,7 +7,7 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
-
+  static String routeName = "/email";
   @override
   State<EmailScreen> createState() => _EmailScreenState();
 }

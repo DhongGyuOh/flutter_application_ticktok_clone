@@ -2,27 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/auth_button.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/username_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/username_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static String routeName = "/";
   const SignUpScreen({super.key});
-
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
   void onLoginTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+    context.push(LoginScreen.routeName);
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => const LoginScreen(),
+    // ));
   }
 
   void onEmailTap(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
+    context.push(UsernameScreen.routeName);
+    // Navigator.of(context)
+    //     .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }
 
   @override

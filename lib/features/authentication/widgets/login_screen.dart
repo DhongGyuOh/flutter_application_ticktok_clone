@@ -5,8 +5,10 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_form_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
+  static String routeName = "/login";
   const LoginScreen({super.key});
 
   @override
@@ -15,13 +17,15 @@ class LoginScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<LoginScreen> {
   void onTapTest(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const TestScreen(),
-    ));
+    context.push(TestScreen.routeName);
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => const TestScreen(),
+    //));
   }
 
   void onSignUpTap() {
-    Navigator.pop(context);
+    context.pop();
+    // Navigator.pop(context);
   }
 
   void onTapEmail(BuildContext context) {
@@ -36,7 +40,7 @@ class _SignUpScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
         child: Column(
           children: [
-            Gaps.v80,
+            Gaps.v72,
             const Text(
               'Log In To NEW',
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),

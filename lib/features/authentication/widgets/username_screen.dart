@@ -6,8 +6,8 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
+  static String routeName = "/username";
   const UsernameScreen({super.key});
-
   @override
   State<UsernameScreen> createState() => _UsernameScreenState();
 }

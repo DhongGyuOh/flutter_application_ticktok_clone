@@ -5,6 +5,8 @@ import 'package:flutter_application_ticktok_clone/features/users/widgets/persist
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfileScreen extends StatefulWidget {
+  static String routeName = "userprofile";
+
   const UserProfileScreen({super.key});
 
   @override

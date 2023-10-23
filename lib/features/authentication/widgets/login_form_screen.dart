@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../constants/sizes.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
-
+  static String routeName = "/loginform";
   @override
   State<LoginFormScreen> createState() => _LoginFormScreenState();
 }
@@ -20,10 +21,11 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const InterestScreen()),
-          (route) => false,
-        );
+        context.push(InterestScreen.routeName);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //   MaterialPageRoute(builder: (context) => const InterestScreen()),
+        //   (route) => false,
+        // );
       }
     }
     //_formKey.currentState?.validate();

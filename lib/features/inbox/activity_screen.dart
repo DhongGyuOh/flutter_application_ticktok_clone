@@ -3,6 +3,7 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ActivityScreen extends StatefulWidget {
+  static String routeName = "/activity";
   const ActivityScreen({super.key});
 
   @override

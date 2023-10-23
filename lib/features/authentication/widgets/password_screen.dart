@@ -8,7 +8,7 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({super.key});
-
+  static String routeName = "/password";
   @override
   State<PasswordScreen> createState() => _PasswordScreenState();
 }

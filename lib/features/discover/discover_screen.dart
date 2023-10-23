@@ -4,6 +4,7 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DiscoverScreen extends StatefulWidget {
+  static String routeName = "/discover";
   const DiscoverScreen({super.key});
   @override
   State<DiscoverScreen> createState() => _DiscoverScreenState();
@@ -54,7 +55,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
   @override
   Widget build(BuildContext context) {
     var sizewidth = MediaQuery.of(context).size.width;
-    print(sizewidth);
+
     return DefaultTabController(
       length: tabs.length,
       child: GestureDetector(
