@@ -8,7 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatefulWidget {
-  static String routeName = "/";
+  static String routeURL = "/";
+  static String routeName = "signup";
   const SignUpScreen({super.key});
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -16,14 +17,14 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   void onLoginTap(BuildContext context) {
-    context.push(LoginScreen.routeName);
+    context.push(LoginScreen.routeURL);
     // Navigator.of(context).push(MaterialPageRoute(
     //   builder: (context) => const LoginScreen(),
     // ));
   }
 
   void onEmailTap(BuildContext context) {
-    context.push(UsernameScreen.routeName);
+    context.pushNamed(UsernameScreen.routeName);
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }

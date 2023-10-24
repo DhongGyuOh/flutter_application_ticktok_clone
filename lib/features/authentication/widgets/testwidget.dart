@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TestScreen extends StatefulWidget {
-  static String routeName = "/tset";
+  static String routeName = 'test';
+  static String routeURL = 'test';
   const TestScreen({super.key});
 
   @override
@@ -9,26 +12,60 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  final TextEditingController _controller = TextEditingController();
+  late String _text = "";
+  late bool _type = false;
+  void onTap(BuildContext context) {
+    context.pushNamed('test2',
+        pathParameters: {"value": _text},
+        queryParameters: {"type": _type ? "체크함" : "체크안함"});
+  }
+
+  void _onCheck() {
+    setState(() {
+      _type = !_type;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        _text = _controller.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('appBar'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('다음 페이지에 전달할 값을 입력'),
+            SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: _controller,
+                )),
+            CupertinoButton(
+                onPressed: () => onTap(context), child: const Text('클릭')),
+            Checkbox(
+              value: _type,
+              onChanged: (value) => _onCheck(),
+            )
+          ],
         ),
-        body: Center(
-          child: Column(
-            children: [
-              for (int i = 0; i < 5; i++)
-                const ListTile(
-                  title: Text('안녕'),
-                  subtitle: Text('안녕하세요.'),
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.amber,
-                  ),
-                )
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }

@@ -5,9 +5,9 @@ import 'package:flutter_application_ticktok_clone/features/users/widgets/persist
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  static String routeName = "userprofile";
-
-  const UserProfileScreen({super.key});
+  final String username;
+  static String routeName = "/userprofile";
+  const UserProfileScreen({super.key, required this.username});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -53,13 +53,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           "https://yt3.ggpht.com/LOWZ9per6hyhd6swd5KEi_RmgACl6-gpXSUf91zNaY-fPb8jX13syeVo-RKLFqqUxnyqCi4S=s88-c-k-c0x00ffffff-no-rj"),
                     ),
                     Gaps.v10,
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("@mroh1226"),
+                        Text("@${widget.username}"),
                         Gaps.h3,
-                        FaIcon(
+                        const FaIcon(
                           FontAwesomeIcons.certificate,
                           size: 15,
                           color: Colors.blue,

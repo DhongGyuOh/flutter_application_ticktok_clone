@@ -156,7 +156,6 @@ class _ActivityScreenState extends State<ActivityScreen>
                       child: const Center(
                         child: FaIcon(
                           FontAwesomeIcons.bell,
-                          color: Colors.black,
                         ),
                       ),
                     ),

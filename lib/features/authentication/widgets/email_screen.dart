@@ -6,8 +6,10 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/password_screen.dart';
 
 class EmailScreen extends StatefulWidget {
-  const EmailScreen({super.key});
-  static String routeName = "/email";
+  static String routeName = "email";
+  static String routeURL = "email";
+  final String username;
+  const EmailScreen({super.key, required this.username});
   @override
   State<EmailScreen> createState() => _EmailScreenState();
 }
@@ -78,9 +80,9 @@ class _EmailScreenState extends State<EmailScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Your Email",
-                style: TextStyle(
+              Text(
+                "What is Your Email ${widget.username}?",
+                style: const TextStyle(
                     fontSize: Sizes.size28, fontWeight: FontWeight.bold),
               ),
               Gaps.v10,

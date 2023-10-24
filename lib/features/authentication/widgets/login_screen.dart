@@ -3,12 +3,12 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_form_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String routeName = "/login";
+  static String routeName = "login";
+  static String routeURL = "/login";
   const LoginScreen({super.key});
 
   @override
@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<LoginScreen> {
   void onTapTest(BuildContext context) {
-    context.push(TestScreen.routeName);
+    context.pushNamed("test");
     // Navigator.of(context).push(MaterialPageRoute(
     //   builder: (context) => const TestScreen(),
     //));

@@ -4,6 +4,7 @@ import 'package:flutter_application_ticktok_clone/features/authentication/widget
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/password_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget2.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/username_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/discover/discover_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/main_navigation/main_navigation_screen.dart';
@@ -15,25 +16,24 @@ import 'package:go_router/go_router.dart';
 final GoRouter router = GoRouter(
   routes: [
     GoRoute(
-      path: SignUpScreen.routeName,
-      builder: (context, state) => const SignUpScreen(),
-    ),
-    GoRoute(
-      path: EmailScreen.routeName,
-      builder: (context, state) => const EmailScreen(),
-    ),
-    GoRoute(
-      path: LoginScreen.routeName,
-      builder: (context, state) => const LoginScreen(),
-    ),
-    GoRoute(
-      path: UsernameScreen.routeName,
-      builder: (context, state) => const UsernameScreen(),
-    ),
-    GoRoute(
-      path: TestScreen.routeName,
-      builder: (context, state) => const TestScreen(),
-    ),
+        name: SignUpScreen.routeName,
+        path: SignUpScreen.routeURL,
+        builder: (context, state) => const SignUpScreen(),
+        routes: [
+          GoRoute(
+              name: UsernameScreen.routeName,
+              path: UsernameScreen.routeURL,
+              builder: (context, state) => const UsernameScreen(),
+              routes: [
+                GoRoute(
+                    name: EmailScreen.routeName,
+                    path: EmailScreen.routeURL,
+                    builder: (context, state) {
+                      final username = state.extra as String;
+                      return EmailScreen(username: username);
+                    }),
+              ]),
+        ]),
     GoRoute(
       path: InterestScreen.routeName,
       builder: (context, state) => const InterestScreen(),
@@ -51,9 +51,27 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const PasswordScreen(),
     ),
     GoRoute(
-      path: TestScreen.routeName,
-      builder: (context, state) => const TestScreen(),
-    ),
+        name: LoginScreen.routeName,
+        path: LoginScreen.routeURL,
+        builder: (context, state) => const LoginScreen(),
+        routes: [
+          GoRoute(
+              name: "test",
+              path: "test",
+              builder: (context, state) => const TestScreen(),
+              routes: [
+                GoRoute(
+                  name: "test2",
+                  path: "test2/:value",
+                  builder: (context, state) {
+                    final String value = state.pathParameters['value']!;
+                    final String type = state.uri.queryParameters['type']!;
+
+                    return TestScreen2(value: value, type: type);
+                  },
+                )
+              ]),
+        ]),
     GoRoute(
       path: DiscoverScreen.routeName,
       builder: (context, state) => const DiscoverScreen(),
@@ -65,6 +83,6 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: TutorialScreen.routeName,
       builder: (context, state) => const TutorialScreen(),
-    )
+    ),
   ],
 );
