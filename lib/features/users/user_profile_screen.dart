@@ -70,7 +70,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40),
                       child: SizedBox(
-                        height: 50,
+                        height: 60,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
