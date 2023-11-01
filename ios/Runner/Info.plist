@@ -47,5 +47,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라 사용을 허용하시겠습니까?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>음성 녹음을 허용하시겠습니까?</string>
+	
+	<key>NSCameraUsageDescription</key>
+    <string>Your app needs access to the camera to take photos and videos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Your app needs access to the photo library to select photos and videos.</string>
+	
 </dict>
 </plist>

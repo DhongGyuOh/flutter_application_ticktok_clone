@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_application_ticktok_clone">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 스토리지사용 gallery_saver 권한 허용 -->
     <application
         android:label="flutter_application_ticktok_clone"
         android:name="${applicationName}"

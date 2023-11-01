@@ -37,7 +37,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
           lowerBound: 0.0,
           upperBound: 1.0);
 
-  void _startRecording(TapDownDetails details) async {
+  Future<void> _startRecording(TapDownDetails details) async {
     if (_cameraController.value.isRecordingVideo) return;
     //이미 녹화중이라면 return;
     await _cameraController.startVideoRecording();
@@ -46,7 +46,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _progressAnimationController.forward();
   }
 
-  void _stopRecording() async {
+  Future<void> _stopRecording() async {
     if (!_cameraController.value.isRecordingVideo) return;
     //녹화중이 아니라면 return;
     _buttonAnimationController.reverse();
@@ -63,21 +63,25 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
-    //카메라 실행
+    //사용 가능한 카메라 목록을 가져옴
     if (cameras.isEmpty) {
       return;
     }
     _cameraController = CameraController(
-        //CameraController을 통해 카메라 초기화
+        //CameraController 설정
         cameras[_isSelfieMode ? 1 : 0],
         //CameraDescription(0,CameraLensDirection.back,90) 후면 카메라
         //CameraDescription(1,CameraLensDirection.front,270) 전면 카메라
         ResolutionPreset.ultraHigh,
+        //매우 높은 화질 선택
         enableAudio: true,
-        imageFormatGroup: ImageFormatGroup.jpeg);
+        //오디오 녹음 활성화
+        imageFormatGroup: ImageFormatGroup.jpeg
+        //jpeg 이미지 형식 지정
+        );
 
     await _cameraController.initialize();
-
+    //카메라 초기화
     await _cameraController.prepareForVideoRecording();
     // IOS 운영체제에서 녹화할때 싱크를 맞추기 위해 필요한 소스한줄(안드로이드,Web 등은 필요없음)
 
