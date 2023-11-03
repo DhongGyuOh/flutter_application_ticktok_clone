@@ -54,6 +54,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     final video = await _cameraController.stopVideoRecording();
     //녹화를 멈춤
 
+    if (!mounted) return;
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return VideoPreViewScreen(video: video);
