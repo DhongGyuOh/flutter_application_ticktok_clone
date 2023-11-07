@@ -6,7 +6,9 @@ import 'package:video_player/video_player.dart';
 
 class VideoPreViewScreen extends StatefulWidget {
   final XFile video;
-  const VideoPreViewScreen({super.key, required this.video});
+  final bool isPicked;
+  const VideoPreViewScreen(
+      {super.key, required this.video, required this.isPicked});
 
   @override
   State<VideoPreViewScreen> createState() => _VideoPreViewScreenState();
@@ -47,6 +49,12 @@ class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
   }
 
   @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -55,24 +63,25 @@ class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
       body: _videoPlayerController.value.isInitialized
           ? Stack(alignment: Alignment.bottomCenter, children: [
               VideoPlayer(_videoPlayerController),
-              Positioned(
-                  bottom: MediaQuery.of(context).size.height / 18,
-                  child: GestureDetector(
-                    onTap: () => _saveToGallery(),
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _isSavedVideo
-                              ? Colors.green.shade400
-                              : Colors.blue.shade300),
-                      child: Icon(
-                        _isSavedVideo ? Icons.download_done : Icons.download,
-                        size: 40,
+              if (!widget.isPicked)
+                Positioned(
+                    bottom: MediaQuery.of(context).size.height / 18,
+                    child: GestureDetector(
+                      onTap: () => _saveToGallery(),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _isSavedVideo
+                                ? Colors.green.shade400
+                                : Colors.blue.shade300),
+                        child: Icon(
+                          _isSavedVideo ? Icons.download_done : Icons.download,
+                          size: 40,
+                        ),
                       ),
-                    ),
-                  ))
+                    ))
             ])
           : null,
     );

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_preview_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
@@ -13,16 +17,20 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   //2개 이상의 Ticker가 필요하기 때문에 TickerProviderStateMixin 사용
+  //WidgetsBindingObserver 생명주기를 관리를 위해 추가함
   late bool _hasPermission = false;
   //앱 내 장치사용 권한
   late bool _isSelfieMode = false;
   //셀피모드 (카메라 전면, 후면 전환)
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
+
   late CameraController _cameraController;
 
   late FlashMode _flashMode;
   //플래시 모드(auto, off, on)
+  late bool isPicked = false;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -55,9 +63,23 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     //녹화를 멈춤
 
     if (!mounted) return;
+    isPicked = false;
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return VideoPreViewScreen(video: video);
+        return VideoPreViewScreen(video: video, isPicked: isPicked);
+      },
+    ));
+  }
+
+  Future<void> _onPickVideoPressed() async {
+    final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+    //camera, gallary 선택
+    if (video == null) return;
+    if (!mounted) return;
+    isPicked = true;
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return VideoPreViewScreen(video: video, isPicked: isPicked);
       },
     ));
   }
@@ -127,8 +149,17 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermission();
+    if (!_noCamera) {
+      initPermission();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
+
     //권한 허용을 묻는 팝업을 띄움
+    WidgetsBinding.instance.addObserver(this);
+    //유저가 Application을 벗어나거나 다시 돌아왔을 때 이 class에서 그정보를 받음,
     _progressAnimationController.addListener(
       () {
         setState(() {});
@@ -150,97 +181,140 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (!_hasPermission) return;
+    //카메라 권한이 없다면 return;
+    if (!_cameraController.value.isInitialized) return;
+    //cameraController가 시작되지않아서 dispose 할 controller가 없다면 return;
+    if (state == AppLifecycleState.inactive) {
+      //inactive 앱을 나갔을 때
+      await _cameraController.dispose();
+      //controller를 버림
+      // } else if (state == AppLifecycleState.paused) {
+      //   //paused 앱이 중지되었을 때
+    } else if (state == AppLifecycleState.resumed) {
+      //resumed 다시 앱으로 돌아 왔을 때
+      await initCamera();
+      //카메라 다시 동작
+      setState(() {});
+    }
+
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: _hasPermission && _cameraController.value.isInitialized
+          child: _hasPermission
               ? Stack(alignment: Alignment.center, children: [
-                  CameraPreview(_cameraController),
+                  if (!_noCamera && _cameraController.value.isInitialized)
+                    CameraPreview(_cameraController),
+                  if (!_noCamera)
+                    Positioned(
+                        top: MediaQuery.of(context).size.height / 40,
+                        right: MediaQuery.of(context).size.width / 30,
+                        child: Column(
+                          children: [
+                            IconButton(
+                                onPressed: toggleSelfiMode,
+                                icon: FaIcon(
+                                  FontAwesomeIcons.cameraRotate,
+                                  color: _isSelfieMode
+                                      ? Colors.blue
+                                      : Colors.white,
+                                  size: 32,
+                                )),
+                            Gaps.v10,
+                            IconButton(
+                                onPressed: () =>
+                                    _setFlashMode(FlashMode.always),
+                                icon: FaIcon(
+                                  Icons.flash_on,
+                                  color: _flashMode == FlashMode.always
+                                      ? Colors.amber
+                                      : Colors.white,
+                                  size: 32,
+                                )),
+                            Gaps.v10,
+                            IconButton(
+                                onPressed: () => _setFlashMode(FlashMode.auto),
+                                icon: FaIcon(
+                                  Icons.flash_auto,
+                                  color: _flashMode == FlashMode.auto
+                                      ? Colors.amber
+                                      : Colors.white,
+                                  size: 32,
+                                )),
+                            Gaps.v10,
+                            IconButton(
+                                onPressed: () => _setFlashMode(FlashMode.off),
+                                icon: FaIcon(
+                                  Icons.flash_off,
+                                  color: _flashMode == FlashMode.off
+                                      ? Colors.amber
+                                      : Colors.white,
+                                  size: 32,
+                                )),
+                            Gaps.v10,
+                            IconButton(
+                                onPressed: () => _setFlashMode(FlashMode.torch),
+                                icon: FaIcon(
+                                  Icons.light_mode,
+                                  color: _flashMode == FlashMode.torch
+                                      ? Colors.amber
+                                      : Colors.white,
+                                  size: 32,
+                                )),
+                          ],
+                        )),
                   Positioned(
-                      top: MediaQuery.of(context).size.height / 40,
-                      right: MediaQuery.of(context).size.width / 30,
-                      child: Column(
-                        children: [
-                          IconButton(
-                              onPressed: toggleSelfiMode,
-                              icon: FaIcon(
-                                FontAwesomeIcons.cameraRotate,
-                                color:
-                                    _isSelfieMode ? Colors.blue : Colors.white,
-                                size: 32,
-                              )),
-                          Gaps.v10,
-                          IconButton(
-                              onPressed: () => _setFlashMode(FlashMode.always),
-                              icon: FaIcon(
-                                Icons.flash_on,
-                                color: _flashMode == FlashMode.always
-                                    ? Colors.amber
-                                    : Colors.white,
-                                size: 32,
-                              )),
-                          Gaps.v10,
-                          IconButton(
-                              onPressed: () => _setFlashMode(FlashMode.auto),
-                              icon: FaIcon(
-                                Icons.flash_auto,
-                                color: _flashMode == FlashMode.auto
-                                    ? Colors.amber
-                                    : Colors.white,
-                                size: 32,
-                              )),
-                          Gaps.v10,
-                          IconButton(
-                              onPressed: () => _setFlashMode(FlashMode.off),
-                              icon: FaIcon(
-                                Icons.flash_off,
-                                color: _flashMode == FlashMode.off
-                                    ? Colors.amber
-                                    : Colors.white,
-                                size: 32,
-                              )),
-                          Gaps.v10,
-                          IconButton(
-                              onPressed: () => _setFlashMode(FlashMode.torch),
-                              icon: FaIcon(
-                                Icons.light_mode,
-                                color: _flashMode == FlashMode.torch
-                                    ? Colors.amber
-                                    : Colors.white,
-                                size: 32,
-                              )),
-                        ],
-                      )),
-                  Positioned(
+                      width: MediaQuery.of(context).size.width,
                       bottom: 30,
-                      child: GestureDetector(
-                        onTapDown: _startRecording,
-                        onTapUp: (details) => _stopRecording(),
-                        child: ScaleTransition(
-                          scale: _buttonAnimation,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                width: 80,
-                                height: 80,
-                                child: CircularProgressIndicator(
-                                  color: Colors.amber,
-                                  strokeWidth: 5,
-                                  value: _progressAnimationController.value,
-                                ),
+                      child: Row(
+                        children: [
+                          const Spacer(),
+                          GestureDetector(
+                            onTapDown: _startRecording,
+                            onTapUp: (details) => _stopRecording(),
+                            child: ScaleTransition(
+                              scale: _buttonAnimation,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.amber,
+                                      strokeWidth: 5,
+                                      value: _progressAnimationController.value,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 70,
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red.shade400,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.red.shade400,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: IconButton(
+                                  onPressed: _onPickVideoPressed,
+                                  icon: const Icon(
+                                    Icons.image,
+                                    size: 40,
+                                  )),
+                            ),
+                          )
+                        ],
                       ))
                 ])
               : const Column(
