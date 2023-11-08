@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../../constants/sizes.dart';
+import '../../../constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class PostVideoButton extends StatelessWidget {

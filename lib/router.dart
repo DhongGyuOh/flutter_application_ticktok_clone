@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/common/widget/main_navigation/main_navigation_screen.dart';
+import 'package:flutter_application_ticktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/inbox/activity_screen.dart';

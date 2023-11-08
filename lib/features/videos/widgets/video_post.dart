@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/common/widgets/vidio_configuration/video_config.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_button.dart';
@@ -119,6 +120,8 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    final automute = VideoConfigData.of(context).autoMute;
+    //context를 통해 VideoConfig의 속성들을 받을 수 있음.
     return VisibilityDetector(
       key: Key("${widget.index}"),
       //Key에 부모인 class의 Key값인 index를 String값으로 넣기위해 위와같이 작성
@@ -159,6 +162,15 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           )),
+          Positioned(
+              left: 10,
+              top: 30,
+              child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    automute ? Icons.volume_off : Icons.volume_up,
+                    size: 32,
+                  ))),
           Positioned(
               bottom: 30,
               left: 10,

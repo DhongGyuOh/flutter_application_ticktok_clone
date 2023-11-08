@@ -7,8 +7,8 @@ import 'package:flutter_application_ticktok_clone/features/videos/video_recordin
 import 'package:flutter_application_ticktok_clone/features/videos/video_timeline_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import '../main_navigation/widgets/nav_tab.dart';
-import '../main_navigation/widgets/post_video_button.dart';
+import 'nav_tab.dart';
+import 'post_video_button.dart';
 import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
