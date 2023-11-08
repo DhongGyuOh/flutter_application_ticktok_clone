@@ -25,7 +25,7 @@ class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
       //VideoRecordingScreen()에서 녹화된 video를 받아 file path를 VideoPlayerController()에 넣음
     );
     await _videoPlayerController.initialize();
-    //VideoPlayer 컨트롤러 초기화
+    //VideoPlayer 컨트롤러 초기화o player had error com.google.android.exoplayer2.ExoPlaybackException: Source error, null, null))
     await _videoPlayerController.setLooping(true);
     //loop 하도록 설정
     await _videoPlayerController.play();

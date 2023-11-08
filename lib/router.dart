@@ -1,82 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/common/widget/main_navigation/main_navigation_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/activity_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/chat_detail_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/chats_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/video_recording_screen.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRouter router = GoRouter(routes: [
+final GoRouter router = GoRouter(initialLocation: "/home", routes: [
   GoRoute(
-    path: "/",
-    builder: (context, state) => const VideoRecordingScreen(),
+    path: SignUpScreen.routeURL,
+    name: SignUpScreen.routeName,
+    builder: (context, state) => const SignUpScreen(),
+  ),
+  GoRoute(
+    path: LoginScreen.routeURL,
+    name: LoginScreen.routeName,
+    builder: (context, state) => const LoginScreen(),
+  ),
+  GoRoute(
+    path: InterestScreen.routeURL,
+    name: InterestScreen.routeName,
+    builder: (context, state) => const InterestScreen(),
+  ),
+  GoRoute(
+      path: "/:tab(home|discover|inbox|profile)",
+      name: MainNavigationScreen.routeName,
+      builder: (context, state) {
+        final tab = state.pathParameters['tab']!;
+        return MainNavigationScreen(
+          tab: tab,
+        );
+      },
+      routes: const []),
+  GoRoute(
+    path: ActivityScreen.routeURL,
+    name: ActivityScreen.routeName,
+    builder: (context, state) => const ActivityScreen(),
+  ),
+  GoRoute(
+      path: ChatsScreen.routeURL,
+      name: ChatsScreen.routeName,
+      builder: (context, state) => const ChatsScreen(),
+      routes: [
+        GoRoute(
+          path: ChatDetailScreen.routeURL,
+          name: ChatDetailScreen.routeName,
+          builder: (context, state) {
+            final chatId = state.pathParameters["chatId"]!;
+            return ChatDetailScreen(chatId: chatId);
+          },
+        )
+      ]),
+  GoRoute(
+    path: VideoRecordingScreen.routeURL,
+    name: VideoRecordingScreen.routeName,
+    pageBuilder: (context, state) => CustomTransitionPage(
+      transitionDuration: const Duration(milliseconds: 200),
+      child: const VideoRecordingScreen(),
+      transitionsBuilder: (
+        context,
+        animation,
+        secondaryAnimation,
+        child,
+      ) {
+        final position = Tween(begin: const Offset(0, 1), end: Offset.zero)
+            .animate(animation);
+        return SlideTransition(
+          position: position,
+          child: child,
+        );
+      },
+    ),
   )
 ]);
-// final GoRouter router = GoRouter(
-//   routes: [
-//     GoRoute(
-//         name: SignUpScreen.routeName,
-//         path: SignUpScreen.routeURL,
-//         builder: (context, state) => const SignUpScreen(),
-//         routes: [
-//           GoRoute(
-//               name: UsernameScreen.routeName,
-//               path: UsernameScreen.routeURL,
-//               builder: (context, state) => const UsernameScreen(),
-//               routes: [
-//                 GoRoute(
-//                     name: EmailScreen.routeName,
-//                     path: EmailScreen.routeURL,
-//                     builder: (context, state) {
-//                       final username = state.extra as String;
-//                       return EmailScreen(username: username);
-//                     }),
-//               ]),
-//         ]),
-//     GoRoute(
-//       path: InterestScreen.routeName,
-//       builder: (context, state) => const InterestScreen(),
-//     ),
-//     GoRoute(
-//       path: VideoTimelineScreen.routeName,
-//       builder: (context, state) => const VideoTimelineScreen(),
-//     ),
-//     GoRoute(
-//       path: LoginFormScreen.routeName,
-//       builder: (context, state) => const LoginFormScreen(),
-//     ),
-//     GoRoute(
-//       path: PasswordScreen.routeName,
-//       builder: (context, state) => const PasswordScreen(),
-//     ),
-//     GoRoute(
-//         name: LoginScreen.routeName,
-//         path: LoginScreen.routeURL,
-//         builder: (context, state) => const LoginScreen(),
-//         routes: [
-//           GoRoute(
-//               name: "test",
-//               path: "test",
-//               builder: (context, state) => const TestScreen(),
-//               routes: [
-//                 GoRoute(
-//                   name: "test2",
-//                   path: "test2/:value",
-//                   builder: (context, state) {
-//                     final String value = state.pathParameters['value']!;
-//                     final String type = state.uri.queryParameters['type']!;
-
-//                     return TestScreen2(value: value, type: type);
-//                   },
-//                 )
-//               ]),
-//         ]),
-//     GoRoute(
-//       path: DiscoverScreen.routeName,
-//       builder: (context, state) => const DiscoverScreen(),
-//     ),
-//     GoRoute(
-//       path: MainNavigationScreen.routeName,
-//       builder: (context, state) => const MainNavigationScreen(),
-//     ),
-//     GoRoute(
-//       path: TutorialScreen.routeName,
-//       builder: (context, state) => const TutorialScreen(),
-//     ),
-//   ],
-// );

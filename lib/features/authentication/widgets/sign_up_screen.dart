@@ -24,9 +24,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void onEmailTap(BuildContext context) {
-    context.pushNamed(UsernameScreen.routeName);
-    // Navigator.of(context)
-    //     .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
+    //context.pushNamed(UsernameScreen.routeName);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }
 
   @override

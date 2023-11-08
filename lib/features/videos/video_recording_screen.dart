@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_preview_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static String routeName = "postVideo";
+  static String routeURL = "/upload";
   const VideoRecordingScreen({super.key});
 
   @override
@@ -177,11 +180,15 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _cameraController.dispose();
     _buttonAnimationController.dispose();
     _progressAnimationController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
     super.dispose();
   }
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (_noCamera) return;
     if (!_hasPermission) return;
     //카메라 권한이 없다면 return;
     if (!_cameraController.value.isInitialized) return;
@@ -268,6 +275,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                                 )),
                           ],
                         )),
+                  const Positioned(top: 20, left: 5, child: CloseButton()),
                   Positioned(
                       width: MediaQuery.of(context).size.width,
                       bottom: 30,

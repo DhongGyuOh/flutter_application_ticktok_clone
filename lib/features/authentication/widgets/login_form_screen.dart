@@ -21,7 +21,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        context.push(InterestScreen.routeName);
+        context.goNamed(InterestScreen.routeName);
         // Navigator.of(context).pushAndRemoveUntil(
         //   MaterialPageRoute(builder: (context) => const InterestScreen()),
         //   (route) => false,

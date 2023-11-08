@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 
 class InterestScreen extends StatefulWidget {
   const InterestScreen({super.key});
-  static String routeName = "/interest";
+  static String routeName = "interests";
+  static String routeURL = "/tutorial";
   @override
   State<InterestScreen> createState() => _InterestScreenState();
 }
@@ -86,7 +87,11 @@ class _InterestScreenState extends State<InterestScreen> {
   }
 
   void _onTap(BuildContext context) {
-    context.push(TutorialScreen.routeName);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TutorialScreen(),
+        ));
   }
 
   @override

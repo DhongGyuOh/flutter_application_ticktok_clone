@@ -3,8 +3,10 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  static String routeName = "/chatdetail";
-  const ChatDetailScreen({super.key});
+  static String routeName = "chatdetail";
+  static String routeURL = ":chatId";
+  final String chatId;
+  const ChatDetailScreen({super.key, required this.chatId});
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -53,17 +55,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ],
                   ),
                   Gaps.h10,
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "mroh1226",
-                        style: TextStyle(
+                        "mroh1226 (${widget.chatId})",
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Gaps.v3,
-                      Text(
+                      const Text(
                         "Active now",
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       )

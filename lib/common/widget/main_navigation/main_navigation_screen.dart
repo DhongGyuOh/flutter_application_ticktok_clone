@@ -3,42 +3,37 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/discover/discover_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/inbox/inbox_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/users/user_profile_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/video_recording_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/video_timeline_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import '../main_navigation/widgets/nav_tab.dart';
 import '../main_navigation/widgets/post_video_button.dart';
 import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
-  static String routeName = "/mainnavigation";
+  const MainNavigationScreen({super.key, required this.tab});
+  static String routeName = "mainNavigation";
+  final String tab;
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  late int _selectedIndex = 0;
+  final List<String> _tab = ["home", "discover", "upload", "inbox", "profile"];
+  late int _selectedIndex = _tab.indexOf(widget.tab);
+
   final _isDarkMode = isDarkMode;
+
   void _onTapNavButton(int index) {
+    context.go("/${_tab[index]}");
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  void _onPostVideoButtonTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                elevation: 0,
-                shadowColor: Colors.white,
-                title: const Text(
-                  'Record Video',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-        fullscreenDialog: true));
+  void _onPostVideoButtonTap() {
+    context.pushNamed(VideoRecordingScreen.routeName);
   }
 
   @override
@@ -92,8 +87,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               Gaps.h24,
               GestureDetector(
                   onTap: () => {
-                        _onPostVideoButtonTap(context),
-                        _onTapNavButton(2),
+                        _onPostVideoButtonTap(),
+                        //_onTapNavButton(2),
                       },
                   child: PostVideoButton(
                     selectedIndex: _selectedIndex,

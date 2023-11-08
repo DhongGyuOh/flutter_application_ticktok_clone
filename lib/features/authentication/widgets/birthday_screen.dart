@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class BirthdayScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   void onTapNext(BuildContext context) {
     context.pop();
-    context.go(LoginScreen.routeName);
+    context.pushReplacementNamed(InterestScreen.routeName);
     // Navigator.pop(context);
     // Navigator.of(context).pushAndRemoveUntil(
     //   MaterialPageRoute(

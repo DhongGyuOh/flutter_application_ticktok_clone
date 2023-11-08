@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
-import 'package:flutter_application_ticktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:go_router/go_router.dart';
 
 enum Direction { right, left }
@@ -47,7 +46,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 
   void _onTap(BuildContext context) {
-    context.go(MainNavigationScreen.routeName);
+    context.go("/home");
     // Navigator.of(context).pushAndRemoveUntil(
     //     MaterialPageRoute(
     //       builder: (context) => const MainNavigationScreen(),

@@ -29,8 +29,8 @@ class _SignUpScreenState extends State<LoginScreen> {
   }
 
   void onTapEmail(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const LoginFormScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const LoginFormScreen()));
   }
 
   @override
