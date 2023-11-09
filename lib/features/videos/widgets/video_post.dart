@@ -6,6 +6,7 @@ import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_button.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -79,8 +80,6 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
   }
 
-  bool _autoMute = videoConfig.value;
-
   @override
   void initState() {
     _initVideoPlayer();
@@ -98,12 +97,6 @@ class _VideoPostState extends State<VideoPost>
         duration: const Duration(milliseconds: 200));
     _animationController.addListener(() {
       setState(() {});
-    });
-
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-      });
     });
   }
 
@@ -175,10 +168,12 @@ class _VideoPostState extends State<VideoPost>
               top: 30,
               child: IconButton(
                   onPressed: () {
-                    videoConfig.value = !videoConfig.value;
+                    context.read<VideoConfig>().toggleIsMuted();
                   },
                   icon: Icon(
-                    _autoMute ? Icons.volume_off : Icons.volume_up,
+                    context.watch<VideoConfig>().isMuted
+                        ? Icons.volume_off
+                        : Icons.volume_up,
                     size: 32,
                   ))),
           Positioned(

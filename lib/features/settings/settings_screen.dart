@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/common/widgets/vidio_configuration/video_config.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   static String routeName = "/settings";
@@ -32,15 +33,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
-          AnimatedBuilder(
-            animation: videoConfig,
-            builder: (context, child) => SwitchListTile.adaptive(
-              value: videoConfig.value,
-              onChanged: (value) {
-                videoConfig.value = !videoConfig.value;
-              },
-              title: const Text('Auto Mute'),
-            ),
+          SwitchListTile.adaptive(
+            value: context.watch<VideoConfig>().isMuted,
+            onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
+            title: const Text("Auto Muted"),
+          ),
+          SwitchListTile.adaptive(
+            value: context.watch<VideoConfig>().isAutoplay,
+            onChanged: (value) => context.read<VideoConfig>().toggleAutoplay(),
+            title: const Text("Auto Play"),
           ),
           CheckboxListTile(
             value: _notifications,

@@ -1,8 +1,27 @@
 import 'package:flutter/foundation.dart';
 
-final videoConfig = ValueNotifier(false);
-//하나의 변수만 지원함
+class VideoConfig extends ChangeNotifier {
+  bool isMuted = false;
+  bool isAutoplay = false;
 
+  void toggleIsMuted() {
+    isMuted = !isMuted;
+    notifyListeners();
+  }
+
+  void toggleAutoplay() {
+    isAutoplay = !isAutoplay;
+    notifyListeners();
+  }
+}
+
+
+//////////////////////ValueNotifier 사용/////////////////////
+//final videoConfig = ValueNotifier(false);
+////하나의 변수만 지원함
+
+
+/////////////////////////// ChangeNotifier 사용////////////////
 // class VideoConfig extends ChangeNotifier {
 //   bool autoMute = true;
 
@@ -12,10 +31,10 @@ final videoConfig = ValueNotifier(false);
 //     //바뀌었다고 알려주기
 //   }
 // }
-
 // final videoConfig = VideoConfig();
 
-////////////////////////////////////////////////////////////////////
+
+////////////////////////InheritedWidget 사용///////////////////////////////////
 
 // import 'package:flutter/material.dart';
 

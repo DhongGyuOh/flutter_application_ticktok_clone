@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
 import 'package:flutter_application_ticktok_clone/features/settings/settings_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/users/widgets/persistent_tabbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,7 +38,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 actions: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TestScreen(),
+                            ));
+                      },
                       icon: const FaIcon(FontAwesomeIcons.bell)),
                   IconButton(
                       onPressed: _onGearPressed,

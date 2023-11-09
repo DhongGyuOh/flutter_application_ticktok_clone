@@ -20,6 +20,7 @@ class _TestScreen2State extends State<TestScreen2> {
         VideoPlayerController.file(File(widget.video.path));
     super.initState();
     _videoPlayerController.initialize();
+    _videoPlayerController.play();
   }
 
   @override
