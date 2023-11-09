@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_ticktok_clone/common/widgets/vidio_configuration/video_config.dart';
 import 'package:flutter_application_ticktok_clone/router.dart';
 
 void main() async {
@@ -18,35 +17,33 @@ class TickTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VideoConfig(
-      child: MaterialApp.router(
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
-          title: 'NEW App',
-          themeMode: ThemeMode.system,
-          theme: ThemeData(
-              brightness: Brightness.light,
-              textTheme: Typography.blackCupertino,
-              splashColor: Colors.transparent,
-              textSelectionTheme:
-                  const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
-              scaffoldBackgroundColor: Colors.white,
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.white,
-                iconTheme: IconThemeData(color: Colors.black),
-              ),
-              primaryColor: const Color(0xFFE9435A)),
-          darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              textTheme: Typography.whiteCupertino,
-              textSelectionTheme:
-                  const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
-              scaffoldBackgroundColor: Colors.black,
-              appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
-              iconTheme: const IconThemeData(color: Colors.white),
-              bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade800),
-              primaryColor: const Color(0xFFE9435A))),
-    );
+    return MaterialApp.router(
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
+        title: 'NEW App',
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+            brightness: Brightness.light,
+            textTheme: Typography.blackCupertino,
+            splashColor: Colors.transparent,
+            textSelectionTheme:
+                const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              iconTheme: IconThemeData(color: Colors.black),
+            ),
+            primaryColor: const Color(0xFFE9435A)),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            textTheme: Typography.whiteCupertino,
+            textSelectionTheme:
+                const TextSelectionThemeData(cursorColor: Color(0xFFE9435A)),
+            scaffoldBackgroundColor: Colors.black,
+            appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
+            iconTheme: const IconThemeData(color: Colors.white),
+            bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade800),
+            primaryColor: const Color(0xFFE9435A)));
 
     //home: const MainNavigationScreen());
     //home: const SignUpScreen());

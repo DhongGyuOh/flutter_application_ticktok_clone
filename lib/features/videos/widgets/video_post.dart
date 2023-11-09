@@ -79,6 +79,8 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
   }
 
+  bool _autoMute = videoConfig.value;
+
   @override
   void initState() {
     _initVideoPlayer();
@@ -96,6 +98,12 @@ class _VideoPostState extends State<VideoPost>
         duration: const Duration(milliseconds: 200));
     _animationController.addListener(() {
       setState(() {});
+    });
+
+    videoConfig.addListener(() {
+      setState(() {
+        _autoMute = videoConfig.value;
+      });
     });
   }
 
@@ -120,7 +128,7 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
-    final automute = VideoConfigData.of(context).autoMute;
+    //final automute = VideoConfigData.of(context).autoMute;
     //context를 통해 VideoConfig의 속성들을 받을 수 있음.
     return VisibilityDetector(
       key: Key("${widget.index}"),
@@ -166,9 +174,11 @@ class _VideoPostState extends State<VideoPost>
               left: 10,
               top: 30,
               child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    videoConfig.value = !videoConfig.value;
+                  },
                   icon: Icon(
-                    automute ? Icons.volume_off : Icons.volume_up,
+                    _autoMute ? Icons.volume_off : Icons.volume_up,
                     size: 32,
                   ))),
           Positioned(
