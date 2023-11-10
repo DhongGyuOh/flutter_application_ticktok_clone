@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/common/widgets/vidio_configuration/video_config.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,10 +52,14 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_videoPlayerController.value.isPlaying &&
         !isPaused) {
-      _videoPlayerController.play();
+      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (autoplay) {
+        _videoPlayerController.play();
+      }
     }
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
@@ -98,6 +102,20 @@ class _VideoPostState extends State<VideoPost>
     _animationController.addListener(() {
       setState(() {});
     });
+    context
+        .read<PlaybackConfigViewModel>()
+        .addListener(_onPlaybackConfigChanged);
+  }
+
+  void _onPlaybackConfigChanged() {
+    if (!mounted) return;
+    //muted에 따라 음소거 상태 관리하기
+    final muted = context.read<PlaybackConfigViewModel>().muted;
+    if (muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
   }
 
   @override
@@ -167,9 +185,14 @@ class _VideoPostState extends State<VideoPost>
               left: 10,
               top: 30,
               child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    false ? Icons.volume_off : Icons.volume_up,
+                  onPressed: () {
+                    context.read<PlaybackConfigViewModel>().setMuted(
+                        !context.read<PlaybackConfigViewModel>().muted);
+                  },
+                  icon: Icon(
+                    context.watch<PlaybackConfigViewModel>().muted
+                        ? Icons.volume_off
+                        : Icons.volume_up,
                     size: 32,
                   ))),
           Positioned(
