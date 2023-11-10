@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/common/widgets/vidio_configuration/video_config.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
-import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_button.dart';
-import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_comments.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_button.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -167,13 +167,9 @@ class _VideoPostState extends State<VideoPost>
               left: 10,
               top: 30,
               child: IconButton(
-                  onPressed: () {
-                    context.read<VideoConfig>().toggleIsMuted();
-                  },
-                  icon: Icon(
-                    context.watch<VideoConfig>().isMuted
-                        ? Icons.volume_off
-                        : Icons.volume_up,
+                  onPressed: () {},
+                  icon: const Icon(
+                    false ? Icons.volume_off : Icons.volume_up,
                     size: 32,
                   ))),
           Positioned(

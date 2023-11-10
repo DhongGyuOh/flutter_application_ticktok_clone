@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/features/videos/widgets/video_post.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
   static String routeName = "/videotimeline";
