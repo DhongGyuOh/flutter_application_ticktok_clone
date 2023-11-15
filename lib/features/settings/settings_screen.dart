@@ -1,28 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   static String routeName = "/settings";
   const SettingsScreen({super.key});
 
+  // bool _notifications = false;
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
-  void _onNotificationsChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notifications = newValue;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,20 +22,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            value: context.watch<PlaybackConfigViewModel>().muted,
+            value: ref.watch(playbackConfigProvider).muted,
             onChanged: (value) =>
-                context.read<PlaybackConfigViewModel>().setMuted(value),
+                {ref.read(playbackConfigProvider.notifier).setMuted(value)},
             title: const Text("Auto Muted"),
           ),
           SwitchListTile.adaptive(
-            value: context.watch<PlaybackConfigViewModel>().autoplay,
+            value: ref.watch(playbackConfigProvider).autoplay,
             onChanged: (value) =>
-                context.read<PlaybackConfigViewModel>().setAutoplay(value),
+                {ref.read(playbackConfigProvider.notifier).setAutoplay(value)},
             title: const Text("Auto Play"),
           ),
           CheckboxListTile(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
+            value: false,
+            onChanged: (value) => {},
             title: const Text("CheckboxListTile"),
           ),
           ListTile(
@@ -59,10 +47,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 firstDate: DateTime(1945),
                 lastDate: DateTime(2024),
               );
-              if (!mounted) return;
+
               final time = await showTimePicker(
                   context: context, initialTime: TimeOfDay.now());
-              if (!mounted) return;
+
               final dateRange = showDateRangePicker(
                 context: context,
                 firstDate: DateTime.now(),

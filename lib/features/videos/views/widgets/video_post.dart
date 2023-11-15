@@ -5,21 +5,21 @@ import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_comments.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
   const VideoPost(
       {super.key, required this.onVideoFinished, required this.index});
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   //with: SingleTickerProviderStateMixin의 클래스, 메서드를 복사해옴
   //SingleTickerProviderStateMixin를 사용하여 _animationController를 initState에 정의해주고,
@@ -56,8 +56,7 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_videoPlayerController.value.isPlaying &&
         !isPaused) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (autoplay) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -102,16 +101,13 @@ class _VideoPostState extends State<VideoPost>
     _animationController.addListener(() {
       setState(() {});
     });
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
   }
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
     //muted에 따라 음소거 상태 관리하기
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    if (muted) {
+
+    if (ref.read(playbackConfigProvider).muted) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(1);
@@ -185,12 +181,9 @@ class _VideoPostState extends State<VideoPost>
               left: 10,
               top: 30,
               child: IconButton(
-                  onPressed: () {
-                    context.read<PlaybackConfigViewModel>().setMuted(
-                        !context.read<PlaybackConfigViewModel>().muted);
-                  },
+                  onPressed: _onPlaybackConfigChanged,
                   icon: Icon(
-                    context.watch<PlaybackConfigViewModel>().muted
+                    ref.watch(playbackConfigProvider).muted
                         ? Icons.volume_off
                         : Icons.volume_up,
                     size: 32,
