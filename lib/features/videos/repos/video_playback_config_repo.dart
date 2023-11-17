@@ -7,15 +7,15 @@ class VideoPlaybackConfigRepository {
   static const String _muted = "muted";
   //key 이름 휴먼에러를 방지하기위해 변수로 선언함
   final SharedPreferences _preferences;
-
+  //SharedPreferences: 기기 내부에 데이터를 저장하는 패키지 get, set 으로 값을 불러오거나 저장함
   VideoPlaybackConfigRepository(this._preferences);
 
-  Future<void> setMuted(bool value) async {
+  Future<void> setMutedValue(bool value) async {
     await _preferences.setBool(_muted, value);
     //디스크에 muted 정보를 저장함
   }
 
-  Future<void> setAutoplay(bool value) async {
+  Future<void> setAutoplayValue(bool value) async {
     await _preferences.setBool(_autoplay, value);
   }
 
