@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/view_models/timeline_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPreViewScreen extends StatefulWidget {
+class VideoPreViewScreen extends ConsumerStatefulWidget {
   final XFile video;
   final bool isPicked;
   const VideoPreViewScreen(
       {super.key, required this.video, required this.isPicked});
 
   @override
-  State<VideoPreViewScreen> createState() => _VideoPreViewScreenState();
+  VideoPreViewScreenState createState() => VideoPreViewScreenState();
 }
 
-class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
+class VideoPreViewScreenState extends ConsumerState<VideoPreViewScreen> {
   late final VideoPlayerController _videoPlayerController;
 
   late bool _isSavedVideo = false;
@@ -40,6 +42,10 @@ class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
     //albumName이 디렉토리명이 됨
     _isSavedVideo = true;
     setState(() {});
+  }
+
+  void _onUploadPressed() async {
+    ref.read(timelineProvider.notifier).uploadVideo();
   }
 
   @override
@@ -81,7 +87,20 @@ class _VideoPreViewScreenState extends State<VideoPreViewScreen> {
                           size: 40,
                         ),
                       ),
-                    ))
+                    )),
+              Positioned(
+                top: 10,
+                right: 20,
+                child: IconButton(
+                    onPressed: ref.watch(timelineProvider).isLoading
+                        ? () {}
+                        : _onUploadPressed,
+                    icon: ref.watch(timelineProvider).isLoading
+                        ? const CircularProgressIndicator()
+                        : const Icon(
+                            Icons.cloud_upload,
+                          )),
+              )
             ])
           : null,
     );

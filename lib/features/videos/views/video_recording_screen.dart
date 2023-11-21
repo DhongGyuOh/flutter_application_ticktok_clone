@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
-import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_preview_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/views/video_preview_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
