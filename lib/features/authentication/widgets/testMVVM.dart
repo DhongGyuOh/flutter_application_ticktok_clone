@@ -45,12 +45,12 @@ class UserViewModel extends Notifier<User> {
 
   void setReceiveEmail(bool value) {
     _repository.setReceiveEmail(value);
-    state = User(receiveEmail: value, receivePush: state.receiveEmail);
+    state = User(receivePush: value, receiveEmail: state.receiveEmail);
   }
 
   void setReceivePush(bool value) {
     _repository.setReceivePush(value);
-    state = User(receiveEmail: state.receivePush, receivePush: value);
+    state = User(receivePush: state.receivePush, receiveEmail: value);
   }
 
   @override
