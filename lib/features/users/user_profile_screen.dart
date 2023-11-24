@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testMVVM.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/test_mvvmtest.dart';
 import 'package:flutter_application_ticktok_clone/features/settings/settings_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/users/widgets/persistent_tabbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,7 +42,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => UserPage(),
                             ));
                       },
                       icon: const FaIcon(FontAwesomeIcons.bell)),

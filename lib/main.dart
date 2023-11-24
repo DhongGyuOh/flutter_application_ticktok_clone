@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testMVVM.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/repos/video_playback_config_repo.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:flutter_application_ticktok_clone/firebase_options.dart';
@@ -24,14 +23,10 @@ void main() async {
   final preferences = await SharedPreferences.getInstance();
   final repository = VideoPlaybackConfigRepository(preferences);
 
-  final preferences2 = await SharedPreferences.getInstance();
-  final repository2 = UserRepository(preferences2);
-
   runApp(ProviderScope(
     overrides: [
       playbackConfigProvider
           .overrideWith(() => PlaybackConfigViewModel(repository)),
-      userViewModelProvider.overrideWith(() => UserViewModel(repository2))
     ],
     child: const TickTokApp(),
   ));
