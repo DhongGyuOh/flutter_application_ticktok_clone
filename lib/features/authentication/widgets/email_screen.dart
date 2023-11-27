@@ -4,17 +4,20 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/password_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EmailScreen extends StatefulWidget {
+import '../view_models/signup_view_model.dart';
+
+class EmailScreen extends ConsumerStatefulWidget {
   static String routeName = "email";
   static String routeURL = "email";
   final String username;
   const EmailScreen({super.key, required this.username});
   @override
-  State<EmailScreen> createState() => _EmailScreenState();
+  ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _EmailScreenState extends State<EmailScreen> {
+class _EmailScreenState extends ConsumerState<EmailScreen> {
   final TextEditingController _emailController = TextEditingController();
   String _email = "";
 
@@ -33,9 +36,11 @@ class _EmailScreenState extends State<EmailScreen> {
     FocusScope.of(context).unfocus();
   }
 
-  void onEmailTap(BuildContext context) {
+  void onEmailTap() {
     if (_email.isEmpty || _isEmailValid() != null) return;
-    Navigator.pop(context);
+    final state = ref.read(signUpForm.notifier).state;
+    ref.read(signUpForm.notifier).state = {...state, "email": _email};
+    //Navigator.pop(context);
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const PasswordScreen(),
     ));
@@ -92,7 +97,7 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
               Gaps.v20,
               TextField(
-                onSubmitted: (value) => onEmailTap(context),
+                onSubmitted: (value) => onEmailTap(),
                 autocorrect: false,
                 keyboardType: TextInputType.emailAddress,
 
@@ -115,7 +120,7 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
               Gaps.v20,
               GestureDetector(
-                  onTap: () => onEmailTap(context),
+                  onTap: () => onEmailTap(),
                   child: FormButton(
                       disabled: _email.isEmpty || _isEmailValid() != null))
             ],

@@ -1,72 +1,74 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//Model: State로 관리할 User 객체를 만들어줌
+//Model
 class User {
+  User({required this.name, required this.autoLogin});
   final String name;
   final bool autoLogin;
-  User({required this.name, required this.autoLogin});
 }
 
-//ViewModel: 사용할 Model을 초기화하고 함께 사용할 메서드를 정의함, + Riverpod Provider 종류를 결정함
-//AsyncNotifierProvider를 사용한다면 AsyncNotifier, NotifierProvider를 사용한다면 Notifier 를 extends 로 상속하면됨
-class UserViewModel extends Notifier<User> {
-  User user = User(name: "name", autoLogin: false);
+//ViewModel
+class UserViewModel extends AsyncNotifier<User> {
+  //비동기적으로 Notifier를 사용하기위해 AsyncNotifier을 상속
   @override
-  User build() {
-    return User(name: "name", autoLogin: false);
-    //build를 통한 초기화 부분(null방지)
+  FutureOr<User> build() async {
+    final user = User(name: "name", autoLogin: false);
+    return user;
+    //FutureOr로 User 초기화
   }
 
-  User getUser() {
-    return User(name: state.name, autoLogin: state.autoLogin);
-    //state를 통해 user정보 가져오기
+  Future<User> getUser() async {
+    final user =
+        User(name: state.value!.name, autoLogin: state.value!.autoLogin);
+    return user;
+    //User get 메소드
   }
 
-  void setUserName(value) {
-    user = User(name: value, autoLogin: state.autoLogin);
-    state = user;
-    //name Set 하고 state 최신화
+  Future<void> setUserName(value) async {
+    state = const AsyncValue.loading();
+    //state를 로딩상태로 만들어줌
+    await Future.delayed(const Duration(seconds: 2));
+    //Future.delayred로 강제로 2초간 딜레이를 줌(Loading되는 예시를 구현하기 위함)
+    state =
+        AsyncValue.data(User(name: value, autoLogin: state.value!.autoLogin));
+    //state에 data를 넣어줌 (로딩완료) set 매소드
   }
 
-  void setUserAuthLogin(value) {
-    user = User(name: state.name, autoLogin: value);
-    state = user;
-    //name Set 하고 state 최신화
+  Future<void> setUserAutoLogin(value) async {
+    state = AsyncValue.data(User(name: state.value!.name, autoLogin: value));
   }
 }
 
-final userProvider = NotifierProvider<UserViewModel, User>(
-  () => UserViewModel(),
-);
+final userProvider =
+    AsyncNotifierProvider<UserViewModel, User>(() => UserViewModel());
+//AsyncNotifierProvider 생성
 
-//View: 위에서 생성한 ViewModel의 Provider을 실제 이용하는 화면
-//ref로 provider를 사용하기 위해 ConsumerStatefulWidget 혹은 ConsumerWidget를 이용함
-//이해를 돕기위해 두가지 모두 사용한 예시,
-//ConsumerStatefulWidget으로 전체 틀을 만들고, ConsumerWidget으로 autoLogin 체크박스를 만들어봄
-class UserPage extends ConsumerStatefulWidget {
-  const UserPage({super.key});
-  //위젯트리에서 ref를 사용하기 위해 StatefulWidget 대신 ConsumerStatefulWidget 사용
+//View
+class UserViewPage extends ConsumerStatefulWidget {
+  const UserViewPage({super.key});
 
   @override
-  UserPageState createState() => UserPageState();
-  //UserPageState로 createState 변경
+  UserViewPageState createState() => UserViewPageState();
 }
 
-class UserPageState extends ConsumerState<UserPage> {
-  //ConsumerState는 ConsumerStatefulWidget과 한 세트임
-
-  final TextEditingController _textEditingController = TextEditingController();
+class UserViewPageState extends ConsumerState<UserViewPage> {
+  final TextEditingController _editingController = TextEditingController();
+  //텍스트 입력창에 입력된 Text를 이용하기 위해 컨트롤러 생성
 
   @override
   void initState() {
-    _textEditingController.addListener(() {});
+    _editingController.addListener(() {});
+    //컨트롤러 초기화
     super.initState();
   }
 
   @override
   void dispose() {
-    _textEditingController.dispose();
+    _editingController.dispose();
     super.dispose();
   }
 
@@ -74,51 +76,48 @@ class UserPageState extends ConsumerState<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          height: 200,
-          width: 200,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                ref.watch(userProvider).name,
-                style: const TextStyle(fontSize: 40),
-              ),
-              const StateSwitch(),
-              Expanded(
-                  child: TextField(
-                maxLength: 10,
-                style: const TextStyle(fontSize: 25),
-                controller: _textEditingController,
-              )),
-              TextButton(
-                  onPressed: () => ref
-                      .read(userProvider.notifier)
-                      .setUserName(_textEditingController.value.text),
-                  child: const Text(
-                    '이름바꾸기',
-                    style: TextStyle(fontSize: 30),
-                  )),
-            ],
-          ),
-        ),
+        child: Container(
+            color: Colors.amber.shade800,
+            height: 300,
+            width: 300,
+            child: ref.watch(userProvider).when(
+                  //AsyncNotifierProvider 사용으로 when 기능 작성
+                  loading: () => const CircularProgressIndicator(),
+                  //loading: state가 로딩 상태일 때 보여줄 위젯을 작성하여 return함
+
+                  error: (error, stackTrace) => Text("$error"),
+                  //error: state가 로딩 상태일 때 보여줄 위젯을 작성하여 return함
+
+                  data: (data) => Column(
+                    //data: state가 데이터를 받았을 때 보여줄 위젯을 작성하여 return함
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        ref.watch(userProvider).value!.name,
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                      TextField(
+                        controller: _editingController,
+                        cursorWidth: 2,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      SwitchListTile.adaptive(
+                        title: const Text("autoLogin"),
+                        value: ref.watch(userProvider).value!.autoLogin,
+                        onChanged: (value) => ref
+                            .read(userProvider.notifier)
+                            .setUserAutoLogin(value),
+                      ),
+                      CupertinoButton(
+                          child: const Text("이름 변경"),
+                          onPressed: () => ref
+                              .read(userProvider.notifier)
+                              .setUserName(_editingController.text))
+                    ],
+                  ),
+                )),
       ),
     );
-  }
-}
-
-class StateSwitch extends ConsumerWidget {
-  const StateSwitch({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SwitchListTile.adaptive(
-        title: const Text("AutoLogin"),
-        value: ref.watch(userProvider).autoLogin,
-        //watch로 리빌드함
-        onChanged: (value) =>
-            ref.read(userProvider.notifier).setUserAuthLogin(value));
-    //메서드 사용은 provider에 .notifier를 붙여줘야함(read는 리빌드하지 않음)
   }
 }

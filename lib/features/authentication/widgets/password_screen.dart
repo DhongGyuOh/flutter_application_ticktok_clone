@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/birthday_screen.dart';
 
-class PasswordScreen extends StatefulWidget {
+class PasswordScreen extends ConsumerStatefulWidget {
   const PasswordScreen({super.key});
   static String routeName = "/password";
   @override
-  State<PasswordScreen> createState() => _PasswordScreenState();
+  ConsumerState<PasswordScreen> createState() => _PasswordScreenState();
 }
 
-class _PasswordScreenState extends State<PasswordScreen> {
+class _PasswordScreenState extends ConsumerState<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
   String _password = "";
   bool obscure = true;
@@ -59,9 +61,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return true;
   }
 
-  void onTapNext(BuildContext context) {
+  void onTapNext() {
     if (!(checkLength(_password) && checkReg(_password))) return;
-    Navigator.pop(context);
+    //Navigator.pop(context);
+    final state = ref.read(signUpForm.notifier).state;
+    ref.read(signUpForm.notifier).state = {...state, "password": _password};
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const BirthdayScreen(),
     ));
@@ -105,7 +109,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     //한글 입력 막기
                   ],
                   maxLength: 20,
-                  onSubmitted: (value) => onTapNext(context),
+                  onSubmitted: (value) => onTapNext(),
                   obscureText: obscure,
                   controller: _passwordController,
                   cursorColor: Theme.of(context).primaryColor,
@@ -176,7 +180,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 ]),
                 Gaps.v16,
                 GestureDetector(
-                    onTap: () => onTapNext(context),
+                    onTap: () => onTapNext(),
                     child: FormButton(
                         disabled: (_password.isEmpty ||
                             !checkLength(_password) ||

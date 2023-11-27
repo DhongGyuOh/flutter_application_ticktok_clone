@@ -32,13 +32,13 @@ void main() async {
   ));
 }
 
-class TickTokApp extends StatelessWidget {
+class TickTokApp extends ConsumerWidget {
   const TickTokApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-        routerConfig: router,
+        routerConfig: ref.watch(routerProvider),
         debugShowCheckedModeBanner: false,
         title: 'NEW App',
         themeMode: ThemeMode.system,
