@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerWidget {
   static String routeName = "/settings";
@@ -93,7 +95,10 @@ class SettingsScreen extends ConsumerWidget {
                         child: const Text('No')),
                     CupertinoDialogAction(
                       isDefaultAction: true,
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        ref.read(authRepo).signOut();
+                        context.go("/");
+                      },
                       child: const Text('Yes'),
                     )
                   ],

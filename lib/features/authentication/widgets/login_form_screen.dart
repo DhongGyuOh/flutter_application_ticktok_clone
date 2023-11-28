@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/login_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/sizes.dart';
 
-class LoginFormScreen extends StatefulWidget {
+class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({super.key});
   static String routeName = "/loginform";
   @override
-  State<LoginFormScreen> createState() => _LoginFormScreenState();
+  ConsumerState<LoginFormScreen> createState() => _LoginFormScreenState();
 }
 
-class _LoginFormScreenState extends State<LoginFormScreen> {
+class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, String> formData = {};
 
@@ -21,7 +21,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        context.goNamed(InterestScreen.routeName);
+        ref
+            .read(loginProvider.notifier)
+            .login(formData['email']!, formData['password']!, context);
+        //context.goNamed(InterestScreen.routeName);
         // Navigator.of(context).pushAndRemoveUntil(
         //   MaterialPageRoute(builder: (context) => const InterestScreen()),
         //   (route) => false,
@@ -90,7 +93,8 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
               Gaps.v28,
               GestureDetector(
                   onTap: () => _onSubmitTap(),
-                  child: const FormButton(disabled: false))
+                  child:
+                      FormButton(disabled: ref.watch(loginProvider).isLoading))
             ]),
           ),
         ),
