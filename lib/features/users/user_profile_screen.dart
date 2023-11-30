@@ -42,7 +42,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const UserViewPage(),
+                              builder: (context) => const LoginPage(),
                             ));
                       },
                       icon: const FaIcon(FontAwesomeIcons.bell)),
