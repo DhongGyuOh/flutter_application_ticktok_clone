@@ -72,7 +72,11 @@ class LoginViewModel extends AsyncNotifier<void> {
     await ref.read(authRepoProvider).userSignOut();
   }
 
-  Future<void> createUsers(String email, String password) async {}
+  Future<void> createUsers(String email, String password) async {
+    state = const AsyncValue.loading();
+    await ref.read(authRepoProvider).createUser(email, password);
+    state = const AsyncValue.data(null);
+  }
 
   String getEmail() {
     String email = _authRepository.user?.email ?? "로그인 해주세요.";
@@ -153,13 +157,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   color: Colors.white,
                   size: 100,
                 ),
-          Text(
-            ref.read(userProvider.notifier).getEmail(),
-            style: TextStyle(
-                color: Colors.amber.shade600,
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-          ),
+          ref.watch(userProvider).isLoading
+              ? const CircularProgressIndicator()
+              : Text(
+                  ref.read(userProvider.notifier).getEmail(),
+                  style: TextStyle(
+                      color: Colors.amber.shade600,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
           TextFormField(
             textAlign: TextAlign.center,
             controller: _emailTextEditingController,

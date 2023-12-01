@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_form_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   static String routeName = "login";
   static String routeURL = "/login";
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _SignUpScreenState();
+  ConsumerState<LoginScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends ConsumerState<LoginScreen> {
   void onTapTest(BuildContext context) {
     context.pushNamed("test");
     // Navigator.of(context).push(MaterialPageRoute(
@@ -91,6 +93,19 @@ class _SignUpScreenState extends State<LoginScreen> {
                 FontAwesomeIcons.google,
                 size: 30,
                 color: Colors.green,
+              ),
+            ),
+            Gaps.v10,
+            GestureDetector(
+              onTap: () =>
+                  ref.read(socialAuthProvider.notifier).githubSignIn(context),
+              child: const AuthButton(
+                text: 'Continue With GitHub',
+                icon: FaIcon(
+                  FontAwesomeIcons.github,
+                  size: 30,
+                  color: Colors.purple,
+                ),
               ),
             ),
             Gaps.v48,
