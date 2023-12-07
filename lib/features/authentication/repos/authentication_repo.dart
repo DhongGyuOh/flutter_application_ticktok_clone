@@ -16,6 +16,11 @@ class AuthenticationRepositiory {
     //.createUserWithEmailAndPassword 를 실시간 유저 로그인 연결상태를 주고받음
   }
 
+  Future<UserCredential> emailSignUp(String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+  }
+
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     //.signOut(): firebase의 로그아웃 메소드
