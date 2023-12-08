@@ -19,4 +19,15 @@ class UserProfileModel {
         name = "",
         bio = "",
         link = "";
+
+  Map<String, String> toJson() {
+    //MAP을 이용하여 Json 형태로 리턴하기
+    return {
+      "uid": uid,
+      "email": email,
+      "name": name,
+      "bio": bio,
+      "link": link,
+    };
+  }
 }

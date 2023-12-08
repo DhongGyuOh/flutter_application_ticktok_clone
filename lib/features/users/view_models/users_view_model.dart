@@ -1,24 +1,31 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_ticktok_clone/features/users/repos/user_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/user_profile_model.dart';
 
-class UserViewModel extends AsyncNotifier<UserProfileModel> {
+class UsersViewModel extends AsyncNotifier<UserProfileModel> {
+  late final UserRepository _repository;
   @override
   FutureOr<UserProfileModel> build() {
+    _repository = ref.read(userRepo);
     return UserProfileModel.empty();
   }
 
   Future<void> createAccount(UserCredential credential) async {
     if (credential.user == null) throw Exception("Account not created");
-    state = AsyncValue.data(UserProfileModel(
+    state = const AsyncValue.loading();
+    final profile = UserProfileModel(
       uid: credential.user!.uid,
       email: credential.user!.email ?? "anon@anon.com",
       name: credential.user!.displayName ?? "Anon",
       bio: "AnonBio",
       link: "AnonLink",
-    ));
+    );
+    await _repository.createProfile(profile);
+    state = AsyncValue.data(profile);
   }
 }
 
-final usersProvider = AsyncNotifierProvider(() => UserViewModel());
+final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(
+    () => UsersViewModel());
