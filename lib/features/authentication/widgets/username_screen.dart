@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/username_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/email_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UsernameScreen extends StatefulWidget {
+class UsernameScreen extends ConsumerStatefulWidget {
   static String routeName = "username";
   static String routeURL = "username";
   const UsernameScreen({super.key});
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  ConsumerState<UsernameScreen> createState() => _UsernameScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
+class _UsernameScreenState extends ConsumerState<UsernameScreen> {
   final TextEditingController _usernameController = TextEditingController();
   String _username = "";
 
   void onNextTap(BuildContext context) {
     if (_username.isEmpty) return;
+    ref.read(userNameProvider.notifier).setUserName(_username);
     Navigator.push(
         context,
         MaterialPageRoute(

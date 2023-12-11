@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/birthday_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,7 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void onTapNext(BuildContext context) {
+    ref.read(birthdayProvider.notifier).setBirthday(_birthdayController.text);
     ref.read(signUpProvider.notifier).signUp(context);
     // context.pop();
     // context.pushReplacementNamed(InterestScreen.routeName);

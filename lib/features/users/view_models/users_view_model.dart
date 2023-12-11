@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/birthday_view_model.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/view_models/username_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/users/repos/user_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/user_profile_model.dart';
@@ -16,12 +18,13 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     if (credential.user == null) throw Exception("Account not created");
     state = const AsyncValue.loading();
     final profile = UserProfileModel(
-      uid: credential.user!.uid,
-      email: credential.user!.email ?? "anon@anon.com",
-      name: credential.user!.displayName ?? "Anon",
-      bio: "AnonBio",
-      link: "AnonLink",
-    );
+        uid: credential.user!.uid,
+        email: credential.user!.email ?? "anon@anon.com",
+        name:
+            credential.user!.displayName ?? ref.watch(userNameProvider).value!,
+        bio: "AnonBio",
+        link: "AnonLink",
+        birthday: ref.watch(birthdayProvider).value!);
     await _repository.createProfile(profile);
     state = AsyncValue.data(profile);
   }

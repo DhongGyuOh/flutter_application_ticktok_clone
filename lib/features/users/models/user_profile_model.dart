@@ -4,21 +4,23 @@ class UserProfileModel {
   final String name;
   final String bio;
   final String link;
+  final String birthday;
   //FirebaseAuth 에서 가져올 수 있는 값들을 모델로 만들어줌
 
-  UserProfileModel({
-    required this.uid,
-    required this.email,
-    required this.name,
-    required this.bio,
-    required this.link,
-  });
+  UserProfileModel(
+      {required this.uid,
+      required this.email,
+      required this.name,
+      required this.bio,
+      required this.link,
+      required this.birthday});
   UserProfileModel.empty()
       : uid = "",
         email = "",
         name = "",
         bio = "",
-        link = "";
+        link = "",
+        birthday = "";
 
   Map<String, String> toJson() {
     //MAP을 이용하여 Json 형태로 리턴하기
@@ -28,6 +30,7 @@ class UserProfileModel {
       "name": name,
       "bio": bio,
       "link": link,
+      "birthday": birthday
     };
   }
 }
