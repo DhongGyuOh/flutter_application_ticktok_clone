@@ -2,9 +2,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-////Firebase///////////////////////////////////////////////////////////////////////
+////Firebase Authenication Repository/////////////////////////////////////////
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   //Firebase의 Authentication을 다룰 수 있도록 FirebaseAuth 인스턴스를 생성함
@@ -16,8 +17,8 @@ class AuthRepository {
   // }
   Stream<User?> authStateChange() => _firebaseAuth.authStateChanges();
 
-  Future<void> createUser(String email, String password) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+  Future<UserCredential> createUser(String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     //.createUserWithEmailAndPassword(): 유저 이메일/비밀번호로 로그인 인증을 생성함
   }
@@ -74,8 +75,12 @@ class LoginViewModel extends AsyncNotifier<void> {
 
   Future<void> createUsers(String email, String password) async {
     state = const AsyncValue.loading();
-    await ref.read(authRepoProvider).createUser(email, password);
-    state = const AsyncValue.data(null);
+
+    state = await AsyncValue.guard(() async {
+      final userCredential =
+          await ref.read(authRepoProvider).createUser(email, password);
+      await ref.read(userInfoProvider.notifier).createAccount(userCredential);
+    });
   }
 
   String getEmail() {
@@ -159,12 +164,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
           ref.watch(userProvider).isLoading
               ? const CircularProgressIndicator()
-              : Text(
-                  ref.read(userProvider.notifier).getEmail(),
-                  style: TextStyle(
-                      color: Colors.amber.shade600,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+              : GestureDetector(
+                  onTap: () {
+                    if (ref.read(userProvider.notifier).getEmail() !=
+                        "로그인 해주세요.") {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const TestScreen(),
+                      ));
+                    }
+                  },
+                  child: Text(
+                    ref.read(userProvider.notifier).getEmail(),
+                    style: TextStyle(
+                        color: Colors.amber.shade600,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
           TextFormField(
             textAlign: TextAlign.center,

@@ -13,6 +13,7 @@ class AuthenticationRepositiory {
   Future<void> signUp(String email, String password) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+
     //.createUserWithEmailAndPassword 를 실시간 유저 로그인 연결상태를 주고받음
   }
 
