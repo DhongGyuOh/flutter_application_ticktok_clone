@@ -12,8 +12,7 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     //state를 loading 상태로 만들어줌
     await Future.delayed(const Duration(seconds: 2));
     //2초간 딜레이를 줌(API를 받는 것처럼 환경을 만들기 위함)
-    final newVideo = VideoModel(title: "${DateTime.now()}");
-    _list = [..._list, newVideo];
+    _list = [..._list];
     //_list에 newVideo 추가
     state = AsyncValue.data(_list);
     //state를 _list 데이터로 바꿔줌

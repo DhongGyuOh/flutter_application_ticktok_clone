@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/features/videos/view_models/timeline_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:video_player/video_player.dart';
+
+import '../view_models/upload_video_view_model.dart';
 
 class VideoPreViewScreen extends ConsumerStatefulWidget {
   final XFile video;
@@ -45,7 +46,10 @@ class VideoPreViewScreenState extends ConsumerState<VideoPreViewScreen> {
   }
 
   void _onUploadPressed() async {
-    ref.read(timelineProvider.notifier).uploadVideo();
+    ref.read(uploadVideoProvider.notifier).uploadVideo(
+          File(widget.video.path),
+          context,
+        );
   }
 
   @override
@@ -92,10 +96,10 @@ class VideoPreViewScreenState extends ConsumerState<VideoPreViewScreen> {
                 top: 10,
                 right: 20,
                 child: IconButton(
-                    onPressed: ref.watch(timelineProvider).isLoading
+                    onPressed: ref.watch(uploadVideoProvider).isLoading
                         ? () {}
                         : _onUploadPressed,
-                    icon: ref.watch(timelineProvider).isLoading
+                    icon: ref.watch(uploadVideoProvider).isLoading
                         ? const CircularProgressIndicator()
                         : const Icon(
                             Icons.cloud_upload,

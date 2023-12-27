@@ -101,6 +101,7 @@ class UserInfoViewModel extends AsyncNotifier<UserInfo> {
         return UserInfo.fromJson(userInfo);
         //받아온 userInfo에 데이터가 있다면 UserInfo를 return함
       }
+      return UserInfo.empty();
     }
     return UserInfo.empty();
     //로그인되어있지 않다면 비어있는 UserInfo를 return함
@@ -116,8 +117,10 @@ class UserInfoViewModel extends AsyncNotifier<UserInfo> {
         uid: userCredential.user!.uid,
         name: userCredential.user!.displayName ?? "NoName",
         email: userCredential.user!.email ?? "NoEmail",
-        link: ref.read(userInfoProvider).value?.link ?? "NoLink");
-    _userInfoRepository.createUserInfo(userInfo);
+        //link: ref.read(userInfoProvider).value?.link ?? "NoLink");
+        link: "NoLink");
+
+    await _userInfoRepository.createUserInfo(userInfo);
     //firebase UserInfo 컬랙션생성
     state = AsyncValue.data(userInfo);
     //생성된 userInfo를 state에 넣음
