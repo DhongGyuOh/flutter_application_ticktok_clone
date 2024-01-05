@@ -11,7 +11,7 @@ class AvatarViewModel extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {
     _repository = ref.read(userRepo);
-    //Repo초기화
+    //Repo초기화하기
   }
 
   Future<void> uploadAvatar(File file) async {
