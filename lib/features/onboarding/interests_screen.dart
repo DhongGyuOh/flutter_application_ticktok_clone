@@ -4,7 +4,6 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/interests_button.dart';
 import 'package:flutter_application_ticktok_clone/features/onboarding/tutorial_screen.dart';
-import 'package:go_router/go_router.dart';
 
 class InterestScreen extends StatefulWidget {
   const InterestScreen({super.key});

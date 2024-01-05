@@ -49,22 +49,24 @@ class SettingsScreen extends ConsumerWidget {
                 firstDate: DateTime(1945),
                 lastDate: DateTime(2024),
               );
-
-              final time = await showTimePicker(
-                  context: context, initialTime: TimeOfDay.now());
-
-              final dateRange = showDateRangePicker(
-                context: context,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-                builder: (context, child) {
-                  return Theme(
-                      data: ThemeData(
-                          appBarTheme:
-                              const AppBarTheme(backgroundColor: Colors.black)),
-                      child: child!);
-                },
-              );
+              if (context.mounted) {
+                await showTimePicker(
+                    context: context, initialTime: TimeOfDay.now());
+              }
+              if (context.mounted) {
+                showDateRangePicker(
+                  context: context,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                  builder: (context, child) {
+                    return Theme(
+                        data: ThemeData(
+                            appBarTheme: const AppBarTheme(
+                                backgroundColor: Colors.black)),
+                        child: child!);
+                  },
+                );
+              }
             },
           ),
           ListTile(

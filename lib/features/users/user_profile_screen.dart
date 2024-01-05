@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/test_mvvmtest.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
 import 'package:flutter_application_ticktok_clone/features/settings/settings_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/users/view_models/users_view_model.dart';
@@ -53,15 +52,6 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 ));
                           },
                           icon: const FaIcon(FontAwesomeIcons.bugs)),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
-                                ));
-                          },
-                          icon: const FaIcon(FontAwesomeIcons.bell)),
                       IconButton(
                           onPressed: _onGearPressed,
                           icon: const FaIcon(FontAwesomeIcons.gear))

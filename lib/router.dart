@@ -3,8 +3,6 @@ import 'package:flutter_application_ticktok_clone/common/widgets/main_navigation
 import 'package:flutter_application_ticktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget.dart';
-import 'package:flutter_application_ticktok_clone/features/authentication/widgets/testwidget2.dart';
 import 'package:flutter_application_ticktok_clone/features/inbox/activity_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/inbox/chats_screen.dart';
@@ -101,16 +99,5 @@ final routerProvider = Provider((ref) {
             },
           ),
         ),
-        GoRoute(
-            path: TestScreen.routeURL,
-            name: TestScreen.routeName,
-            builder: (context, state) => const TestScreen(),
-            routes: [
-              GoRoute(
-                path: TestScreen2.routeURL,
-                name: TestScreen2.routeName,
-                builder: (context, state) => const TestScreen2(),
-              )
-            ]),
       ]);
 });

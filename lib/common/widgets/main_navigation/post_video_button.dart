@@ -4,10 +4,10 @@ import '../../../constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/utils.dart';
 
 class PostVideoButton extends StatelessWidget {
-  PostVideoButton(
+  const PostVideoButton(
       {super.key, required this.isSelected, required this.selectedIndex});
-  bool isSelected = false;
-  int selectedIndex;
+  final bool isSelected;
+  final int selectedIndex;
   @override
   Widget build(BuildContext context) {
     final bool isdarkMode = isDarkMode(context);

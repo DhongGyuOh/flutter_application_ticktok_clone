@@ -24,15 +24,17 @@ class LoginViewModel extends AsyncNotifier<void> {
     state = await AsyncValue.guard(
       () async => await _repositiory.signIn(email, password),
     );
-    if (state.hasError) {
-      final snack = SnackBar(
-        content:
-            Text((state.error as FirebaseException).message ?? '알수없는 오류입니다.'),
-      );
-      //FirebaseException: Firebase에서 제공하는 메세지
-      ScaffoldMessenger.of(context).showSnackBar(snack);
-    } else {
-      context.go("/home");
+    if (context.mounted) {
+      if (state.hasError) {
+        final snack = SnackBar(
+          content:
+              Text((state.error as FirebaseException).message ?? '알수없는 오류입니다.'),
+        );
+        //FirebaseException: Firebase에서 제공하는 메세지
+        ScaffoldMessenger.of(context).showSnackBar(snack);
+      } else {
+        context.go("/home");
+      }
     }
   }
 }

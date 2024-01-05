@@ -37,7 +37,9 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
           createdAt: DateTime.now().millisecondsSinceEpoch,
         ));
         //storage에 비디오 저장
-        context.pushReplacement("/home");
+        if (context.mounted) {
+          context.pushReplacement("/home");
+        }
       }
     });
   }

@@ -28,10 +28,12 @@ class SignUpViewModel extends AsyncNotifier<void> {
       );
       await users.createAccount(userCredential);
     });
-    if (state.hasError) {
-      showFirebaseErrorSnack(context, state.error!);
-    } else {
-      context.goNamed(InterestScreen.routeName);
+    if (context.mounted) {
+      if (state.hasError) {
+        showFirebaseErrorSnack(context, state.error!);
+      } else {
+        context.goNamed(InterestScreen.routeName);
+      }
     }
   }
 

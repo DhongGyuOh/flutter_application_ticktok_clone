@@ -40,7 +40,7 @@ class UserRepository {
   Future<void> uploadAvatar(File file, String fileName) async {
     final fileRef = _storage.ref().child("avatars/$fileName");
     //Firebase Storage에 접근하고 이 폴더 link를 가리키는 Reference 를 가져옴
-    final task = await fileRef.putFile(file);
+    await fileRef.putFile(file);
     //Reference에 file을 넣음
   }
 }
