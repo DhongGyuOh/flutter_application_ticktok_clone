@@ -12,10 +12,16 @@ class VideoTimelineScreen extends ConsumerStatefulWidget {
 }
 
 class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
+  int _itemCount = 0;
   final PageController _pageController = PageController();
+
   void _onPageChanged(int page) {
     _pageController.animateToPage(page,
         duration: const Duration(milliseconds: 250), curve: Curves.linear);
+    if (page == _itemCount - 1) {
+      ref.watch(timelineProvider.notifier).fetchNextPage();
+      setState(() {});
+    }
   }
 
   void _onVideoFinished() {
@@ -45,22 +51,29 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
               'Could not load videos: $error',
             ),
           ),
-          data: (videos) => RefreshIndicator(
-            onRefresh: _onRefresh,
-            displacement: 50,
-            edgeOffset: 20,
-            child: PageView.builder(
-              controller: _pageController,
-              pageSnapping: true,
-              scrollDirection: Axis.vertical,
-              onPageChanged: _onPageChanged,
-              itemCount: videos.length,
-              itemBuilder: (context, index) {
-                return VideoPost(
-                    onVideoFinished: _onVideoFinished, index: index);
-              },
-            ),
-          ),
+          data: (videos) {
+            _itemCount = videos.length;
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              displacement: 50,
+              edgeOffset: 20,
+              child: PageView.builder(
+                controller: _pageController,
+                pageSnapping: true,
+                scrollDirection: Axis.vertical,
+                onPageChanged: _onPageChanged,
+                itemCount: videos.length,
+                itemBuilder: (context, index) {
+                  final videoData = videos[index];
+                  return VideoPost(
+                    onVideoFinished: _onVideoFinished,
+                    index: index,
+                    videoData: videoData,
+                  );
+                },
+              ),
+            );
+          },
         );
   }
 }

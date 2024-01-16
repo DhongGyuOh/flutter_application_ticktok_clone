@@ -19,6 +19,18 @@ class VideoModel {
     required this.comments,
     required this.createdAt,
   });
+
+  VideoModel.fromJason(Map<String, dynamic> json)
+      : title = json["title"],
+        description = json["description"],
+        fileUrl = json["fileUrl"],
+        thumbnailUrl = json["thumbnailUrl"],
+        creatorUid = json["creatorUid"],
+        creator = json["creator"],
+        likes = json["likes"],
+        comments = json["comments"],
+        createdAt = json["createdAt"];
+
   Map<String, dynamic> toJason() {
     return {
       "title": title,
@@ -31,19 +43,5 @@ class VideoModel {
       "comments": comments,
       "createdAt": createdAt
     };
-  }
-
-  VideoModel fromJason(Map<String, dynamic> json) {
-    return VideoModel(
-      title: json["title"],
-      description: json["description"],
-      fileUrl: json["fileUrl"],
-      thumbnailUrl: json["thumbnailUrl"],
-      creatorUid: json["creatorUid"],
-      creator: json["creator"],
-      likes: json["likes"],
-      comments: json["comments"],
-      createdAt: json["createdAt"],
-    );
   }
 }
