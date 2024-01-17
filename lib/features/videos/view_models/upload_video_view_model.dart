@@ -26,6 +26,7 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
       if (task.metadata != null) {
         //task.metadata로 비디오 업로드 상태를 조건으로 걸어줌
         await _repository.saveVideo(VideoModel(
+          id: "id",
           title: "title",
           description: "description",
           fileUrl: await task.ref.getDownloadURL(),

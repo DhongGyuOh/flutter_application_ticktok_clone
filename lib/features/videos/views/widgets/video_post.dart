@@ -4,6 +4,7 @@ import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/constants/sizes.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/models/video_model.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:flutter_application_ticktok_clone/features/videos/view_models/video_post_view_model.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -139,6 +140,10 @@ class VideoPostState extends ConsumerState<VideoPost>
     );
   }
 
+  void onLikeTap() {
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+  }
+
   @override
   Widget build(BuildContext context) {
     //final automute = VideoConfigData.of(context).autoMute;
@@ -244,9 +249,12 @@ class VideoPostState extends ConsumerState<VideoPost>
                     child: Text("@${widget.videoData.creator}"),
                   ),
                   Gaps.v10,
-                  VideoButton(
-                      icon: FontAwesomeIcons.solidHeart,
-                      text: "${widget.videoData.likes}"),
+                  GestureDetector(
+                    onTap: onLikeTap,
+                    child: VideoButton(
+                        icon: FontAwesomeIcons.solidHeart,
+                        text: "${widget.videoData.likes}"),
+                  ),
                   Gaps.v10,
                   GestureDetector(
                     onTap: () => _onCommentsTap(context),

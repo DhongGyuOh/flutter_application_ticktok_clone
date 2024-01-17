@@ -97,7 +97,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         cameras[_isSelfieMode ? 1 : 0],
         //CameraDescription(0,CameraLensDirection.back,90) 후면 카메라
         //CameraDescription(1,CameraLensDirection.front,270) 전면 카메라
-        ResolutionPreset.medium,
+        ResolutionPreset.low,
         //보통 화질 선택
         enableAudio: true,
         //오디오 녹음 활성화

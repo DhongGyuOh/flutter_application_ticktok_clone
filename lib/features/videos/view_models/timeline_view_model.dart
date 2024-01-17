@@ -12,7 +12,10 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     final result = await _repository.fetchVideos(lastItemCreatedAt: null);
     //map: 제공되는 QueryDocumentSnapshot을 이용하여 map안에 정의된 return 값으로 새로운 list를 생성해줌 //foreach 같은 함수인듯
     final videos = result.docs.map((doc) {
-      return VideoModel.fromJason(doc.data());
+      return VideoModel.fromJason(
+        json: doc.data(),
+        videoId: doc.id,
+      );
     });
     return videos.toList();
   }
@@ -26,12 +29,17 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     return _list;
   }
 
-  fetchNextPage() async {
+  Future<void> fetchNextPage() async {
     //await _repository.fetchVideos(lastItemCreatedAt: _list.last.createdAt);
     final nextPage =
         await _fetchVideos(lastItemCreatedAt: _list.last.createdAt);
     //기존 _list에 nextPage 리스트를 합침
     state = AsyncValue.data([..._list, ...nextPage]);
+  }
+
+  Future<void> refresh() async {
+    final vidos = await _fetchVideos(lastItemCreatedAt: null);
+    state = AsyncValue.data(vidos);
   }
 }
 

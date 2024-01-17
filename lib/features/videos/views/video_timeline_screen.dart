@@ -36,8 +36,8 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
     super.dispose();
   }
 
-  Future<void> _onRefresh() {
-    return Future.delayed(const Duration(seconds: 1));
+  Future<void> _onRefresh() async {
+    return await ref.watch(timelineProvider.notifier).refresh();
   }
 
   @override
@@ -53,6 +53,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
           ),
           data: (videos) {
             _itemCount = videos.length;
+            //RefreshIndicator새로고침 위젯(당겼을때)
             return RefreshIndicator(
               onRefresh: _onRefresh,
               displacement: 50,

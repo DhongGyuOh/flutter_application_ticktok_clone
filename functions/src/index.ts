@@ -47,3 +47,35 @@ export const onVideoCreated = functions.firestore
         videoId: snapshot.id,
       });
   });
+
+//좋아요 했을 때 likes Collection에서 해당 likeId를 추가생성하고
+//videos collection에서 videos like(필드) 값을 증가시키는 메서드
+export const onLikedCreated = functions.firestore
+  .document("likes/{likeId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    //split으로 "000"을 구분자로 사용하여 videoId, userId를 받아옴
+    const [videoId, _] = snapshot.id.split("000");
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(1), //기존 likes의 값을 +1 증가시켜줌
+      });
+  });
+
+//좋아요 취소했을 때 like Collection에서 해당 likeId를 삭제하고
+//videos collection에서 videos like(필드) 값을 감소시키는 메서드
+export const onLikedRemoved = functions.firestore
+  .document("likes/{likeId}")
+  .onDelete(async (snapshot, context) => {
+    const db = admin.firestore();
+    //split으로 "000"을 구분자로 사용하여 videoId, userId를 받아옴
+    const [videoId, _] = snapshot.id.split("000");
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(-1), //기존 likes의 값을 -1 시켜줌
+      });
+  });

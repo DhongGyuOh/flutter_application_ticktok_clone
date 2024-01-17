@@ -11,8 +11,8 @@ class VideosRepository {
 
   UploadTask uploadVideoFile(File video, String uid) {
     final fileRef = _storage.ref().child(
+        //uid폴더를 만들고 거기에 만들어진 날짜를 파일명으로 함
         "/videos/$uid/${DateTime.now().millisecondsSinceEpoch.toString()}");
-    //uid폴더를 만들고 거기에 만들어진 날짜를 파일명으로 함
     return fileRef.putFile(video);
   }
 
@@ -41,6 +41,26 @@ class VideosRepository {
   //   //videos Collection에서 likes Field가 10이상인 Document를 get하는 함수
   //   return _db.collection("videos").where("likes", isGreaterThan: 10).get();
   // }
+
+  Future<void> likeVideo(String videoId, String userId) async {
+    // final check = await _db
+    //     .collection("likes")
+    //     .where("videoId", isEqualTo: videoId)
+    //     .where("userId", isEqualTo: userId).get();
+    //if (check.isexists) return;
+
+    //임의의 특정id를 부여함, .get()으로 데이터가 존재하지않으면 .set() 함
+    //존재한다면 dislike 해야하기 때문에 .delete()로 삭제함
+    final query = _db.collection("likes").doc("${videoId}000$userId");
+
+    final like = await query.get();
+
+    if (!like.exists) {
+      await query.set({"createdAt": DateTime.now().millisecondsSinceEpoch});
+    } else {
+      await query.delete();
+    }
+  }
 }
 
 final videosRepo = Provider((ref) => VideosRepository());
