@@ -22,7 +22,7 @@ class VideoModel {
     required this.createdAt,
   });
 
-  VideoModel.fromJason(
+  VideoModel.fromJson(
       {required Map<String, dynamic> json, required String videoId})
       : id = videoId,
         title = json["title"],
@@ -35,7 +35,7 @@ class VideoModel {
         comments = json["comments"],
         createdAt = json["createdAt"];
 
-  Map<String, dynamic> toJason() {
+  Map<String, dynamic> toJson() {
     return {
       "id": id,
       "title": title,
