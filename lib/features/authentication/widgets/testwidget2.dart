@@ -131,6 +131,39 @@ class MovieRepository {
   Future<void> deleteMovie(String movieCode) async {
     await _firestore.collection("movies").doc(movieCode).delete();
   }
+
+  Future<void> deleteMovieField(String movieCode) async {
+    await _firestore.doc(movieCode).update({"movieName": FieldValue.delete()});
+  }
+
+  //트렌젝션으로 데이터 처리하기
+  Future<void> tranUpdateMovie() async {
+    final firstMovie = _firestore.collection("movies").doc("firstMovie");
+    _firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(firstMovie);
+      final score = snapshot.get("score") + 1;
+      transaction.update(firstMovie, {"score": score});
+    }).then((value) => print("성공적으로 업데이트 되었습니다."),
+        onError: (e) => print("에러발생"));
+  }
+
+  //batch로 set, update, delete 작업 조합 사용하기
+  Future<void> batchMovie() async {
+    final batch = _firestore.batch();
+
+    //movies 컬랙션의 favoritMovie 다큐먼트
+    final docMovie = _firestore.collection("movies").doc("favoriteMovie");
+    batch.set(
+        docMovie, {"movieCode": "168863"}); // movieCode 필드에 "168863" set()함
+    batch.set(
+        docMovie, {"movieName": "GET OUT"}); // movieName 필드에 "GET OUT" set()함
+    batch
+        .update(docMovie, {"score": "2130000"}); // score 필드에 2130000으로 update()
+    batch.delete(docMovie); //삭제
+
+    //batch를 커밋하여 한번에 처리함
+    batch.commit();
+  }
 }
 
 final _movieRepoProvider = Provider((ref) => MovieRepository());
