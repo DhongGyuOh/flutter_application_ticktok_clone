@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ticktok_clone/constants/gaps.dart';
 import 'package:flutter_application_ticktok_clone/features/discover/discover_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/inbox/inbox_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/views/inbox_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/users/user_profile_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/video_recording_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/video_timeline_screen.dart';

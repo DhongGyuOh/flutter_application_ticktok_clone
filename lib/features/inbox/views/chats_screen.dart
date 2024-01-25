@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ticktok_clone/features/inbox/chat_detail_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/views/chat_detail_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 

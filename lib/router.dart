@@ -3,9 +3,9 @@ import 'package:flutter_application_ticktok_clone/common/widgets/main_navigation
 import 'package:flutter_application_ticktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/login_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/authentication/widgets/sign_up_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/inbox/activity_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/inbox/chat_detail_screen.dart';
-import 'package:flutter_application_ticktok_clone/features/inbox/chats_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/views/activity_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/views/chat_detail_screen.dart';
+import 'package:flutter_application_ticktok_clone/features/inbox/views/chats_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/onboarding/interests_screen.dart';
 import 'package:flutter_application_ticktok_clone/features/videos/views/video_recording_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
