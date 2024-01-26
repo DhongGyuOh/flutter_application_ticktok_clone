@@ -8,8 +8,6 @@ import 'package:flutter_application_ticktok_clone/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/notifications/notifications_provider.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -39,7 +37,6 @@ class TickTokApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(notificationsProvider); //token을 미리 얻기위해
     return MaterialApp.router(
         routerConfig: ref.watch(routerProvider),
         debugShowCheckedModeBanner: false,

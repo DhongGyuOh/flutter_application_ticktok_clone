@@ -62,6 +62,25 @@ export const onLikedCreated = functions.firestore
       .update({
         likes: admin.firestore.FieldValue.increment(1), //기존 likes의 값을 +1 증가시켜줌
       });
+    const video = await (
+      await db.collection("videos").doc(videoId).get()
+    ).data();
+    if (video == null) return;
+    const creatorUid = video.creatorUid;
+    const user = await (
+      await db.collection("users").doc(creatorUid).get()
+    ).data();
+    if (user) {
+      const token = user.token;
+      admin.messaging().send({
+        token: token,
+        data: { screen: "123" },
+        notification: {
+          title: "someone liked your video.",
+          body: "Likes💕 + 1",
+        },
+      });
+    }
   });
 
 //좋아요 취소했을 때 like Collection에서 해당 likeId를 삭제하고
