@@ -46,6 +46,7 @@ class NotificationsProvider extends FamilyAsyncNotifier<void, BuildContext> {
   @override
   FutureOr build(BuildContext context) async {
     final token = await _messaging.getToken(); //알림을 보내기 위한 Token을 가져옴
+    print("토큰: $token");
     if (token == null) return;
     await updateToken(token);
     await initListeners(context);
